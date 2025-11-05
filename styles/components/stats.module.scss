@@ -1,0 +1,110 @@
+/* tokens */
+$bg: #fbfaf8;
+$text-main: #1a1a1a;
+$text-dim: #4a4a4a;
+$border-color: #ececec;
+$accent: #1900ff;
+
+.section {
+  background-color: $bg;
+  background-color: #fffefb;
+  color: $text-main;
+  border-top: 1px solid var(--line);
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 2rem;
+  row-gap: 3rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 70px 15px;
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
+/* ---------- label ("BY THE NUMBERS") ---------- */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: rgb(144, 144, 144);
+  margin-bottom: 1.5rem;
+
+  .bar {
+    width: 30px;
+    height: 8px;
+    background-color: $accent;
+  }
+
+  .labelText {
+    line-height: 1;
+  }
+}
+
+/* ---------- headline ---------- */
+.headline {
+  font-weight: 500;
+  color: $text-main;
+  line-height: 1.1;
+  font-size: clamp(2rem, 1rem + 2vw, 3.5rem);
+  letter-spacing: -0.03em;
+  max-width: 28ch;
+}
+
+/* ---------- stats grid ---------- */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid $border-color;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* each cell */
+.statItem {
+  border-bottom: 1px solid $border-color;
+  padding: 2rem 0;
+
+  @media (min-width: 768px) {
+    padding: 2.5rem 0 2.5rem 0;
+  }
+
+  // add vertical split line on desktop for left column
+  @media (min-width: 768px) {
+    &:nth-child(odd) {
+      padding-right: 2rem;
+      border-right: 1px solid $border-color;
+    }
+    &:nth-child(even) {
+      padding-left: 2rem;
+    }
+  }
+
+  .statValue {
+    font-size: clamp(2.5rem, 1rem + 2vw, 4rem);
+    line-height: 1.1;
+    font-weight: 400;
+    color: $text-main;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+  }
+
+  .statNote {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: $text-dim;
+    max-width: 28rem;
+  }
+}

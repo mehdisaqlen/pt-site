@@ -1,0 +1,107 @@
+:root {
+  --line: #ececec;
+}
+.wrapper {
+  width: 100%;
+  background-color: #fffefb;
+}
+
+.inner {
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  padding: 3rem 15px;
+  max-width: 1280px;
+  margin-inline: auto;
+  display: grid;
+  row-gap: 2.5rem;
+}
+
+.headlineBlock {
+  text-align: center;
+  max-width: 800px;
+  margin-inline: auto;
+  display: grid;
+  row-gap: 0.5rem;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(1.1rem, 0.4vw + 1rem, 1.25rem);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #000;
+}
+
+/* --- marquee container --- */
+.scrollerMask {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+/* --- moving track --- */
+.scrollerTrack {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  min-width: max-content;
+  animation: scroll-left 25s linear infinite;
+}
+
+.scrollerMask:hover .scrollerTrack {
+  animation-play-state: paused;
+}
+
+/* individual logo items */
+.logoItem {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0;
+}
+
+.logoImg {
+  height: 100%;
+  width: 100px;
+  object-fit: contain;
+  // filter: grayscale(1) brightness(0.1);
+  //   opacity: 0.8;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    // filter: grayscale(0) brightness(0.2);
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

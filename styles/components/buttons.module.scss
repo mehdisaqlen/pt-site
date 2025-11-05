@@ -1,0 +1,49 @@
+/* CTA buttons */
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: TomatoGrotesk;
+
+  .ctaPrimary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 22px;
+    border-radius: 5px;
+    background: var(--blue);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: transform 0.05s ease;
+  }
+
+  .ctaPrimary:active {
+    transform: translateY(1px);
+  }
+
+  .ctaIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 20px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--text);
+
+    /* ensure icon appears after text */
+    span {
+      order: 1;
+    }
+
+    .gIcon {
+      font-size: 20px;
+      order: 2;
+    }
+  }
+}

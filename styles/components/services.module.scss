@@ -1,0 +1,142 @@
+/* COLORS / TOKENS (tweak if you have globals) */
+$bg-section: #fbfaf8; // same as navbar bg you gave
+$text-main: #1a1a1a;
+$text-dim: #555;
+$border-color: #ececec;
+$line: #ececec;
+$blue: #1900ff;
+
+.section {
+  background-color: $bg-section;
+  background-color: #fffefb;
+  color: $text-main;
+  border-top: 1px solid $line;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 2rem;
+  padding: 70px 15px;
+  border-right: 1px solid $line;
+  border-left: 1px solid $line;
+
+  .sectionLabel {
+    margin-bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem; // space between bar and text
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgb(144, 144, 144);
+
+    .bar {
+      width: 30px;
+      height: 8px;
+      background-color: var(--blue);
+    }
+  }
+}
+
+/* --- Intro block (left aligned like screenshot) --- */
+.intro {
+  max-width: 620px;
+
+  .heading {
+    font-weight: 500;
+    color: $text-main;
+    line-height: 1.1;
+    font-size: clamp(2rem, 1rem + 2vw, 3.5rem);
+    letter-spacing: -0.03em;
+    max-width: 22ch;
+    margin-bottom: 8px;
+  }
+
+  .sub {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    color: $text-dim;
+    max-width: 38rem;
+    margin-bottom: 50px;
+  }
+}
+
+.gridWrapper {
+  background-color: transparent;
+  border: 1px solid $border-color;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- Individual cell --- */
+.gridItem {
+  padding: 2rem 1.5rem 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  color: $text-main;
+
+  @media (min-width: 768px) {
+    padding: 2.5rem 2rem 3rem 2rem;
+  }
+
+  /* inner borders to mimic table lines exactly */
+  // horizontal border between rows
+  border-top: 1px solid $border-color;
+
+  // on desktop, add vertical split lines
+  @media (min-width: 768px) {
+    &:nth-child(odd) {
+      border-right: 1px solid $border-color;
+    }
+
+    // first row shouldn't double border-top
+    &:nth-child(1),
+    &:nth-child(2) {
+      border-top: none;
+    }
+  }
+
+  // mobile: only first item has no border-top
+  &:first-child {
+    border-top: none;
+  }
+}
+
+/* icon */
+.iconWrap {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.75;
+    color: #1900ff;
+  }
+}
+
+/* title inside each cell */
+.itemTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.75rem 0;
+  color: $text-main;
+}
+
+/* description inside each cell */
+.itemText {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: $text-dim;
+  max-width: 32rem;
+}

@@ -1,0 +1,122 @@
+/* prevent stray horizontal scroll and inner scroll contexts */
+.page {
+  overflow-x: hidden;
+  background-color: #fffefb;
+
+  /* make wrappers calculate width with borders to avoid sub-pixel overflow */
+  .hero,
+  .hero .copy,
+  .formWrap,
+  .formWrap .text,
+  .formWrap .text .form,
+  .rewards .header {
+    box-sizing: border-box;
+  }
+
+  .hero {
+    border-bottom: 1px solid #e9e9e9;
+
+    .copy {
+      padding: 50px 15px;
+      border-left: 1px solid #e9e9e9;
+      border-right: 1px solid #e9e9e9;
+      margin: auto;
+      max-width: 750px;
+
+      .h1 {
+        margin: 0 0 6px;
+        font-size: 2rem;
+        max-width: 500px;
+        line-height: 1.2;
+        font-family: TomatoGrotesk;
+      }
+      .sub {
+        margin: 0 0 20px;
+        max-width: 600px;
+        color: #556070;
+        font-size: 1.02rem;
+      }
+    }
+  }
+
+  .content {
+    padding: 25px 0px;
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    margin: auto;
+    max-width: 750px;
+
+    h2 {
+      font-size: 1.5rem;
+      font-family: TomatoGrotesk;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      border-left: 3px solid blue;
+      padding-left: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #0027a7;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    ul {
+      margin: 0 0 1rem 1.5rem;
+      padding: 0;
+      list-style: disc;
+
+      li {
+        margin-bottom: 0.4rem;
+      }
+    }
+
+    a {
+      color: #5d5d5d;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      &:hover {
+        color: #171717;
+        text-decoration: underline;
+      }
+    }
+
+    address {
+      font-style: normal;
+      background: #fbfaf8;
+      border: 1px solid rgb(233, 231, 230);
+      padding: 1rem 1.5rem;
+      border-radius: 5px;
+      margin-top: 1rem;
+      font-size: 14px;
+
+      strong {
+        font-family: TomatoGrotesk;
+        display: block;
+        margin-bottom: 6px;
+      }
+    }
+
+    em {
+      color: #aaaaaa;
+    }
+
+    /* Hero section text */
+    header {
+      margin-bottom: 3rem;
+      text-align: left;
+
+      p {
+        font-size: 1.1rem;
+        color: #cccccc;
+        max-width: 600px;
+      }
+    }
+  }
+}

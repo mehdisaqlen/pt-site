@@ -1,0 +1,506 @@
+/* =========================================================
+   CONTACT PAGE STYLES — TWO-COLUMN LAYOUT (compact form)
+   ========================================================= */
+
+/* === Shared placeholders for selects (safe @extend) === */
+%selectBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #d9dee6;
+  border-radius: 10px;
+  padding: 0.72rem 0.9rem;
+  font-size: 12px;
+  color: #9aa1ac;
+  cursor: pointer;
+  &:focus-visible {
+    outline: 3px solid rgba(47, 107, 255, 0.25);
+  }
+}
+
+%selectList {
+  position: absolute;
+  z-index: 20;
+  margin-top: 6px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d9dee6;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  max-height: 260px;
+  overflow: auto;
+}
+
+%selectItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  // font-size: 0.95rem;
+  font-size: 13px;
+  &:hover {
+    background: #f3f6fb;
+  }
+  &.active {
+    background: #eaf1ff;
+  }
+}
+
+/* === Layout === */
+.contactPage {
+  overflow: hidden;
+  height: fit-content;
+
+  .centerWrap {
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 24px;
+
+    @media (max-width: 980px) {
+      grid-template-columns: 1fr;
+      border-left: 0;
+      border-right: 0;
+    }
+
+    .cardsGrid {
+      height: fit-content;
+      padding: 50px 16px 50px 16px;
+
+      @media (max-width: 980px) {
+        padding: 8px 0 0;
+      }
+    }
+
+    .col1 {
+      background-color: #fbfaf8;
+      padding: 50px 20px 50px 20px;
+      border-left: 1px solid #e9e9e9;
+
+      @media (max-width: 980px) {
+        border-left: 0;
+        background: transparent;
+        padding: 0;
+      }
+    }
+  }
+
+  .header {
+    margin-bottom: 10px;
+
+    .flexPulse {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 8px;
+
+      span {
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+    }
+    .h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      font-family: TomatoGrotesk, system-ui, sans-serif;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      margin-bottom: 26px;
+      color: #556070;
+      font-size: 0.98rem;
+    }
+  }
+}
+
+/* === FORM === */
+.form {
+  display: grid;
+  gap: 12px;
+
+  /* Compact two-column grid for fields */
+  .formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .two {
+    grid-column: span 1;
+  }
+  .full {
+    grid-column: 1 / -1;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+      font-size: 0.83rem;
+      color: #111111ea;
+    }
+
+    .reqStar {
+      color: #e11d48;
+      margin-left: 4px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      background: #fff;
+      border: 1px solid #d9dee6;
+      border-radius: 10px;
+      padding: 0.72rem 0.9rem;
+      font-size: 13px;
+      outline: none;
+
+      &:focus {
+        border-color: #2f6bff;
+        box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.15);
+      }
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .error {
+      color: #dc2626;
+      font-size: 0.82rem;
+      margin-top: 2px;
+    }
+  }
+
+  .invalid {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+  }
+
+  /* Role selection — two cards side-by-side */
+  .roleGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 15px;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .roleCard {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+
+    .roleIcon {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      padding: 8px;
+      border-radius: 8px;
+    }
+    input {
+      display: none;
+    }
+
+    .roleText {
+      display: grid;
+      gap: 2px;
+    }
+    .roleTitle {
+      font-size: 0.85em;
+    }
+    .roleSub {
+      color: #6b7280;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .tick {
+      position: absolute;
+      right: 10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.25);
+    }
+
+    &.selected {
+      border-color: #0040ff;
+      box-shadow: 0 0 0 3px rgba(0, 64, 255, 0.1);
+
+      .tick {
+        background: #0040ff;
+        border-color: #0040ff;
+      }
+    }
+  }
+
+  /* Custom selects */
+  .selectCustom {
+    position: relative;
+  }
+  .selectBtn {
+    @extend %selectBtn;
+  }
+  .selectList {
+    @extend %selectList;
+  }
+  .selectItem {
+    @extend %selectItem;
+  }
+
+  /* Custom checkbox */
+  .inlineCheck {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+    font-size: 0.93rem;
+    color: #111;
+    user-select: none;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 1.6px solid #cbd5e1;
+      border-radius: 5px;
+      background: #fff;
+      position: relative;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #3b82f6;
+      }
+      &:checked {
+        background-color: #2563eb;
+        border-color: #2563eb;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 2px;
+          left: 5px;
+          width: 4px;
+          height: 8px;
+          border: solid #fff;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+      }
+      &:focus-visible {
+        outline: 2px solid rgba(37, 99, 235, 0.3);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  /* Submit button */
+  .cta {
+    margin-top: 4px;
+    width: 100%;
+    background: #1900ff;
+    font-family: TomatoGrotesk;
+    text-transform: capitalize;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.98rem;
+
+    &:hover {
+      filter: brightness(1.05);
+    }
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  /* Toasts */
+  .toast {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.65rem 0.9rem;
+    border-radius: 10px;
+    color: #0f172a;
+    background: #fff;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+    font-size: 0.95rem;
+
+    &.ok {
+      border-color: #10b981;
+    }
+    &.err {
+      border-color: #ef4444;
+    }
+  }
+}
+
+/* === COUNTRY SELECT (using placeholders) === */
+.country {
+  position: relative;
+}
+
+.countryBtn {
+  @extend %selectBtn;
+}
+
+.countryVal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.flag {
+  width: 22px;
+  text-align: center;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+    "Twemoji Mozilla", system-ui, sans-serif;
+}
+
+.placeholder {
+  color: #9aa1ac;
+  font-size: 12px;
+}
+
+.countryPopover {
+  @extend %selectList;
+  border-radius: 12px;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid #eef2f7;
+
+  input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    font-size: 0.95rem;
+    padding: 0.4rem;
+  }
+}
+
+.countryList {
+  max-height: 280px;
+  overflow: auto;
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+}
+
+.countryItem {
+  @extend %selectItem;
+  .name {
+    flex: 1;
+  }
+}
+
+/* small "Required" pill used by CountrySelect if desired */
+.reqPill {
+  display: none; /* keep for API parity; hidden in compact UI */
+}
+
+/* === CONTACT CARDS === */
+.cardsGrid {
+  // margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+
+  .card {
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 14px;
+    display: grid;
+    gap: 6px;
+    transition: 0.2s all ease-in-out;
+
+    &:hover {
+      background-color: #f6f2f0;
+    }
+
+    .inner {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 10px;
+
+      .text {
+        h3 {
+          margin: 0;
+          font-size: 1rem;
+        }
+        p {
+          margin: 0;
+          color: #6b7280;
+          font-size: 0.82rem;
+        }
+
+        .cardLink {
+          color: #000;
+          text-decoration: none;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .cardIcon {
+      color: #28292c;
+      display: grid;
+      place-items: center;
+      font-size: 25px;
+      border-right: 1.5px solid rgb(204, 204, 204);
+      padding-right: 8px;
+    }
+  }
+}
+
+/* flag SVG sizing */
+.flagSvg {
+  width: 20px;
+  height: 14px;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06) inset;
+  display: inline-block;
+}
+.countryVal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}

@@ -1,0 +1,598 @@
+/* Brand tokens */
+$bg-page: #fffefb;
+$bg-alt: #efede6;
+$text-main: #1a1a1a;
+$text-dim: #3a3935;
+$border-line: #d8d5cc;
+$accent-plum: #2b0e2a;
+$accent-orange: #f0671f;
+$cta-blue: #0057ff;
+$cta-black: #1a1a1a;
+$cta-text: #ffffff;
+$line: #ececec;
+
+/* Global page wrapper */
+.page {
+  background-color: $bg-page;
+  color: $text-main;
+}
+.heroSection {
+  // background-color: $bg-page;
+  // padding: 0rem 1rem 4rem;
+}
+
+.heroGrid {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  row-gap: 2rem;
+  padding: 100px 15px;
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 2fr 1fr;
+    column-gap: 60px;
+    align-items: center;
+  }
+}
+
+.heroLeft {
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+}
+
+/* kicker row (“GROW YOUR BUSINESS WITH PUBTHRIVE”) */
+.kickerRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: $text-main;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kickerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: $accent-plum;
+}
+
+.kickerText {
+  color: $text-main;
+}
+
+/* BIG headline - bigger, fewer words */
+.heroHeadline {
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: $text-main;
+
+  /* matches the visual scale of the homepage hero */
+  font-size: clamp(2.2rem, 1rem + 2vw, 3.25rem);
+  max-width: 24ch;
+}
+
+/* short supporting line */
+.heroSub {
+  font-size: 1.125rem;
+  line-height: 1.4;
+  color: $text-dim;
+  max-width: 40ch;
+}
+
+/* CTA row (blue + black) */
+.heroCTAGroup {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
+.primaryCTA,
+.secondaryCTA {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: max-content;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  padding: 0.9rem 1.1rem;
+
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.15s ease;
+}
+
+/* primary = blue */
+.primaryCTA {
+  background-color: $cta-blue;
+  color: $cta-text;
+
+  &:hover {
+    background-color: darken($cta-blue, 5%);
+  }
+}
+
+/* secondary = black */
+.secondaryCTA {
+  background-color: $cta-black;
+  color: $cta-text;
+
+  &:hover {
+    background-color: lighten($cta-black, 5%);
+  }
+}
+
+/* RIGHT SIDE VISUAL PLACEHOLDER */
+.imageWrap {
+  display: flex;
+  justify-content: flex-end;
+
+  .image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+  }
+  @media (min-width: 1024px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* This is a lightweight placeholder inspired by the orange growth graphic
+   in the homepage screenshot (circle, arrow up/right, block).
+   You can replace this with an SVG/illustration later.
+*/
+.heroArtPlaceholder {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  min-height: 260px;
+  background: transparent;
+}
+
+/* circle */
+.heroShapeCircle {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    lighten($accent-orange, 15%) 0%,
+    $accent-orange 60%,
+    darken($accent-orange, 10%) 100%
+  );
+  box-shadow: 0 0 0 1px rgba(26, 26, 26, 0.4);
+}
+
+/* angled arrow line */
+.heroShapeArrow {
+  position: absolute;
+  left: 0;
+  top: 60px;
+  width: 180px;
+  height: 180px;
+  border: 6px solid $accent-orange;
+  border-bottom: 0;
+  border-left: 0;
+  transform: rotate(-45deg);
+  border-radius: 0;
+
+  /* small arrow head square */
+  &::after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    width: 18px;
+    height: 18px;
+    background-color: $accent-orange;
+    box-shadow: 0 0 0 1px rgba(26, 26, 26, 0.4);
+    transform: rotate(45deg);
+  }
+}
+
+/* block / square */
+.heroShapeBlock {
+  position: absolute;
+  bottom: 0;
+  right: 0.5rem;
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    lighten($accent-orange, 15%) 0%,
+    $accent-orange 60%,
+    darken($accent-orange, 10%) 100%
+  );
+  box-shadow: 0 0 0 1px rgba(26, 26, 26, 0.6);
+}
+
+/* ----------------------------------
+   BENEFITS SECTION
+---------------------------------- */
+
+.benefitsSection {
+  // background-color: $bg-alt;
+  // padding: 4rem 1rem 4rem;
+
+  // @media (min-width: 768px) {
+  //   padding: 5rem 2rem 5rem;
+  // }
+  border-top: 1px solid var(--line);
+}
+
+.benefitsInner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  row-gap: 2rem;
+  padding: 4rem 1rem 4rem;
+
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.benefitsHeader {
+  max-width: 900px;
+  display: grid;
+  row-gap: 1rem;
+}
+
+.labelGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: $text-main;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dotAccent {
+  width: 8px;
+  height: 8px;
+  background-color: $accent-plum;
+  border-radius: 50%;
+}
+
+.labelText {
+  color: $text-main;
+}
+
+/* section headline */
+.benefitsHeadline {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.75rem, 0.8rem + 1.5vw, 2.5rem);
+  color: $text-main;
+  max-width: 32ch;
+}
+
+/* section subcopy */
+.benefitsSub {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $text-dim;
+  max-width: 55ch;
+}
+
+/* grid of benefits */
+.benefitsGridWrapper {
+  border: 1px solid $border-line;
+  border-radius: 0; /* square per new brand direction */
+  background-color: transparent;
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-bottom: 1px solid $border-line;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.benefitCol {
+  padding: 1.5rem;
+  border-bottom: 1px solid $border-line;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+    &:nth-child(odd) {
+      border-right: 1px solid $border-line;
+    }
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.75rem;
+}
+
+.benefitBadge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $accent-plum;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.benefitTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: $text-main;
+}
+
+.benefitDesc {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: $text-dim;
+  max-width: 40ch;
+}
+
+/* ----------------------------------
+   CALCULATOR SECTION
+---------------------------------- */
+
+.calculatorSection {
+  background-color: $bg-page;
+  border-top: 1px solid var(--line);
+
+  @media (min-width: 768px) {
+    // padding: 5rem 2rem;
+  }
+}
+
+.calculatorShell {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  row-gap: 2rem;
+  padding: 4rem 1rem;
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+/* header row: left copy + input */
+.calcHeaderRow {
+  display: grid;
+  row-gap: 2rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    column-gap: 2rem;
+    align-items: start;
+  }
+}
+
+.calcHeaderLeft {
+  display: grid;
+  row-gap: 1rem;
+}
+
+.calculatorHeadline {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: $text-main;
+  font-size: clamp(1.5rem, 0.6rem + 1.2vw, 2rem);
+  max-width: 24ch;
+}
+
+.calculatorSub {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: $text-dim;
+  max-width: 45ch;
+}
+
+.calcHeaderRight {
+  display: grid;
+  row-gap: 0.5rem;
+  max-width: 400px;
+}
+
+.inputLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: $text-main;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid $text-main;
+  background-color: transparent;
+  padding: 0.75rem 0.75rem;
+  column-gap: 0.5rem;
+}
+
+.inputPrefix {
+  font-size: 1rem;
+  font-weight: 500;
+  color: $text-main;
+  line-height: 1;
+}
+
+.revenueInput {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: $text-main;
+  line-height: 1.2;
+
+  &::placeholder {
+    color: $text-dim;
+  }
+}
+
+.inputHint {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: $text-dim;
+}
+
+/* results strip */
+.tiersStripOuter {
+  border: 1px solid $border-line;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.tiersStripInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tierCol {
+  padding: 1.25rem 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+  @media (min-width: 768px) {
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
+
+  @media (min-width: 640px) {
+    &:not(:last-child) {
+      border-right: 1px solid $border-line;
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $border-line;
+
+    @media (min-width: 640px) {
+      border-bottom: 0;
+    }
+  }
+}
+
+.tierRateRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: 0.75rem;
+}
+
+.tierRateLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: $text-main;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.tierRatePct {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: $text-main;
+  letter-spacing: -0.03em;
+}
+
+.tierEarnBlock {
+  display: grid;
+  row-gap: 0.5rem;
+}
+
+.earnHeader {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: $text-dim;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.earnValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-main;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.earnUnit {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: $text-dim;
+  line-height: 1.2;
+}
+
+.tierNote {
+  display: flex;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: $text-dim;
+  max-width: 32ch;
+  column-gap: 0.5rem;
+}
+
+.tierDot {
+  color: $accent-plum;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.calcFootNote {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: $text-dim;
+  max-width: 60ch;
+  margin-top: -0.5rem;
+}
+
+/* ----------------------------------
+   FINAL CTA
+---------------------------------- */
+
+.finalCTASection {
+}

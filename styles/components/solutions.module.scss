@@ -1,0 +1,197 @@
+/* Dark band section modeled on reference screenshot */
+$bg-dark: #f8f4f0; // deep plum/black from brand
+$text-dark: #1a1a1a;
+$text-dim: #555;
+$accent-blue: #1900ff;
+$border-line: rgb(236, 221, 221);
+$stripe-line: rgba(78, 79, 161, 0.07);
+$line: #ececec;
+.section {
+  background-color: $bg-dark;
+  color: $text-dark;
+  border-top: 1px solid $border-line;
+  padding-bottom: 70px;
+}
+
+.outer {
+  max-width: 1500px;
+  margin: 0 auto;
+  border: 1px solid $border-line;
+  background-color: transparent;
+  padding: 70px 15px 0px 15px;
+  border-right: 1px solid $border-line;
+  border-left: 1px solid $border-line;
+}
+
+/* ---------- TOP ROW (label + stripes background on right) ---------- */
+
+.topRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-bottom: 1px solid $border-line;
+  border-top: 1px solid $border-line;
+
+  min-height: 3.5rem;
+  position: relative;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Left part of top row label occupies first grid col like screenshot */
+.topInner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1rem;
+
+  @media (min-width: 768px) {
+    grid-column: 1 / 2;
+    padding: 1rem 1.5rem;
+  }
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: $text-dark;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.topBadgeDot {
+  width: 12px;
+  height: 12px;
+  background-color: $accent-blue;
+  flex-shrink: 0;
+}
+
+/* The rest of the top row gets angled stripes, like the ref */
+.topRow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  @media (min-width: 768px) {
+    left: 25%; /* start stripes after first col on desktop */
+  }
+
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0,
+    transparent 10px,
+    $stripe-line 10px,
+    $stripe-line 20px
+  );
+  pointer-events: none;
+}
+
+/* ---------- GRID BODY ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: transparent;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Each column cell */
+.col {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid $border-line;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+
+  @media (min-width: 768px) {
+    padding: 2rem 1.5rem;
+    border-bottom: 0;
+    border-right: 1px solid $border-line;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+/* subtle first/last fix if you ever need special borders */
+.colFirst {
+  /* could style differently if needed */
+}
+.colLast {
+  /* could style differently if needed */
+}
+
+.iconRow {
+  font-size: 1rem;
+  line-height: 1;
+  color: $accent-blue;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.iconMark {
+  display: inline-block;
+  color: $accent-blue;
+  font-size: 1.8rem;
+}
+
+/* Headline inside each column */
+.title {
+  font-size: 20px;
+  line-height: 1.3;
+  color: $text-dark;
+}
+
+/* Subtext under the headline */
+.desc {
+  font-size: 15px;
+  line-height: 1.4;
+  color: $text-dim;
+  max-width: 32ch;
+}
+
+/* CTA styles */
+
+/* inline link style (underline style from screenshot) */
+.ctaInline,
+.ctaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 999px;
+  background-color: blue;
+  width: fit-content;
+
+  &:hover {
+    background: rgb(23, 62, 255);
+  }
+}
+
+.inlineIcon {
+  width: 1rem;
+  height: 1rem;
+  color: currentColor;
+}
+
+.ctaPillText {
+}
+
+.ctaPillIcon {
+  width: 1rem;
+  height: 1rem;
+  color: currentColor;
+}

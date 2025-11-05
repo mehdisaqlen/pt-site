@@ -1,0 +1,575 @@
+/* =========================
+   Ad Library — Light Theme
+   ========================= */
+
+/* Base palette (neutral with blue accent) */
+$bg: #fafafa;
+$card: #ffffff;
+$ink: #111827; /* titles/text */
+$muted: #6b7280; /* body text */
+$line: #e5e7eb; /* borders */
+
+$accent: #3b82f6; /* electric blue */
+$accent-2: #93c5fd; /* light blue */
+$success: #16a34a;
+
+/* Page */
+.page {
+  background: $bg;
+  color: $ink;
+  min-height: 100dvh;
+  padding: 56px 0 80px;
+}
+
+/* Hero */
+.hero {
+  text-align: left;
+  margin-bottom: 20px;
+}
+.title {
+  font-size: clamp(32px, 4.2vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.sub {
+  margin-top: 10px;
+  color: $muted;
+  max-width: 70ch;
+  font-size: 18px;
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  list-style: none;
+  padding: 0;
+}
+.chip {
+  padding: 6px 10px;
+  border: 1px solid $line;
+  border-radius: 999px;
+  font-size: 12px;
+  background: #fff;
+}
+
+/* Grid layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.card {
+  grid-column: span 12;
+  @media (min-width: 960px) {
+    grid-column: span 6;
+  }
+  background: $card;
+  border: 1px solid $line;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+.cardHead {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 8px;
+}
+.cardTitle {
+  font-size: 20px;
+  margin: 0;
+}
+.tag {
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid $line;
+  border-radius: 999px;
+  color: $accent;
+  background: #f8fbff;
+}
+.meta {
+  margin: 4px 0 0;
+  color: $muted;
+  font-size: 12px;
+}
+.dot {
+  margin: 0 6px;
+  opacity: 0.5;
+}
+.desc {
+  margin: 8px 0 12px;
+  color: $ink;
+}
+
+/* Demo wrapper */
+.demoOuter {
+  border: 1px dashed $line;
+  border-radius: 12px;
+  padding: 12px;
+  background: linear-gradient(180deg, #fff, #f9fafb);
+}
+
+/* Generic banner shell */
+.banner {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(147, 197, 253, 0.12)
+  );
+  border: 1px solid $line;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.label {
+  font-size: 12px;
+  color: $muted;
+  background: #ffffff;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid $line;
+}
+
+/* Sizes */
+.b970x250 {
+  width: 100%;
+  max-width: 970px;
+  height: 250px;
+}
+.lb728x90 {
+  width: 100%;
+  max-width: 728px;
+  height: 90px;
+}
+.mb320x100 {
+  width: 320px;
+  height: 100px;
+}
+.box300x250 {
+  width: 300px;
+  height: 250px;
+}
+.box336x280 {
+  width: 336px;
+  height: 280px;
+}
+.box300x600 {
+  width: 300px;
+  height: 600px;
+}
+.box160x600 {
+  width: 160px;
+  height: 600px;
+}
+.inArticleUnit {
+  height: 180px;
+}
+
+/* Frames: Desktop */
+.desktopFrame {
+  border: 1px solid $line;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.desktopHeader {
+  padding: 10px;
+  border-bottom: 1px solid $line;
+  display: grid;
+  place-items: center;
+}
+.desktopBody {
+  padding: 16px;
+}
+
+/* Frames: Phone */
+.phoneFrame {
+  border: 1px solid $line;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  height: 420px;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.phoneTop {
+  padding: 10px;
+  border-bottom: 1px solid $line;
+  display: grid;
+  place-items: center;
+}
+.phoneScroll {
+  padding: 14px;
+  overflow: auto;
+}
+.anchorBar {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 8px;
+  border-top: 1px solid $line;
+}
+.anchorUnit {
+  width: 100%;
+  height: 64px;
+}
+
+/* Two-column article + rail */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+}
+.colArticle {
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+}
+.colRail {
+  display: grid;
+  align-content: start;
+}
+
+/* Single column article frame */
+.articleFrame {
+  display: grid;
+  gap: 10px;
+}
+
+/* Native formats */
+.nativeCard {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 12px;
+  border: 1px solid $line;
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+.nativeThumb {
+  border-radius: 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.15),
+    rgba(147, 197, 253, 0.18)
+  );
+  border: 1px solid $line;
+  min-height: 96px;
+}
+.nativeBody {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+.nativeBrand {
+  color: $muted;
+  font-size: 11px;
+}
+.nativeTitle {
+  margin: 0;
+  font-size: 16px;
+}
+.nativeText {
+  margin: 0;
+  color: $muted;
+  font-size: 13px;
+}
+.linkBtn {
+  border: 1px solid $line;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nativeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+.nativeItem {
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 8px;
+  background: #fff;
+}
+.nativeItemTitle {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Video: Outstream sticky mini inside a scrollable viewport */
+.articleViewport {
+  position: relative;
+  border: 1px solid $line;
+  border-radius: 12px;
+  background: #fff;
+  height: 380px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+.articleScroll {
+  overflow: auto;
+  padding: 14px;
+}
+.stickyMini {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 280px;
+  border: 1px solid $line;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+.miniHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid $line;
+  font-size: 12px;
+  color: $muted;
+}
+.dotLive {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: $accent;
+  display: inline-block;
+}
+.closeMini {
+  margin-left: auto;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 16px;
+  color: $muted;
+}
+.miniVideo {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.18),
+    rgba(147, 197, 253, 0.22)
+  );
+  display: grid;
+  place-items: center;
+}
+.playIcon {
+  width: 0;
+  height: 0;
+  border-left: 14px solid $ink;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+.miniBar {
+  height: 4px;
+  background: #eef2ff;
+  position: relative;
+}
+.miniBar::before {
+  content: "";
+  position: absolute;
+  inset: 0 70% 0 0;
+  background: linear-gradient(90deg, $accent, $accent-2);
+  animation: load 5s linear infinite;
+}
+
+/* Inline video */
+.videoInline {
+  border: 1px solid $line;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  aspect-ratio: 16/9;
+  display: grid;
+  place-items: center;
+}
+
+/* Interstitial / Rewarded experiences */
+.interstWrap {
+  display: block;
+}
+.openBtn {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+}
+.interstitial {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.35);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+}
+.interCard {
+  width: min(92vw, 540px);
+  border: 1px solid $line;
+  border-radius: 16px;
+  background: #fff;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+}
+.interText {
+  margin: 8px 0 14px;
+  color: $ink;
+}
+.interActions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.primaryBtn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid $success;
+  background: #fff;
+}
+.ghostBtn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid $line;
+  background: #fff;
+}
+
+.rewarded {
+  display: block;
+}
+.rewardBody {
+  margin-top: 10px;
+  border: 1px solid $line;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+.loremSm {
+  margin: 0 0 8px;
+  color: $muted;
+}
+.progressBar {
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eef2ff;
+  margin-bottom: 10px;
+  position: relative;
+}
+.progressBar::before {
+  content: "";
+  position: absolute;
+  inset: 0 80% 0 0;
+  background: linear-gradient(90deg, $accent, $accent-2);
+  animation: countdown 6s linear infinite;
+}
+.actionsRow {
+  display: flex;
+  gap: 10px;
+}
+
+/* Multi-size grid */
+.msGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+/* ---------------------------
+   Skeleton / Shimmer (global)
+   --------------------------- */
+.skel {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.25s infinite linear;
+  margin: 8px 0;
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: sweep 1.6s infinite;
+}
+
+/* Legacy paragraph bar (kept for completeness) */
+.articlePara {
+  height: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  background: #f3f4f6;
+}
+
+/* Helpers */
+.lorem {
+  margin: 0 0 10px;
+  color: $muted;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.resNote {
+  font-size: 12px;
+  color: $muted;
+  margin-top: 8px;
+}
+
+/* Animations */
+@keyframes load {
+  0% {
+    transform: translateX(-30%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+@keyframes countdown {
+  0% {
+    inset: 0 80% 0 0;
+  }
+  100% {
+    inset: 0 0 0 0;
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

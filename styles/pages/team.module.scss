@@ -1,0 +1,420 @@
+$bg-page: #fbfaf8;
+$bg-alt: #efede6;
+$text-main: #1a1a1a;
+$text-dim: #3a3935;
+$border-line: #d8d5cc;
+$accent-plum: #2b0e2a;
+$cta-blue: #0057ff;
+$cta-black: #1a1a1a;
+$cta-text: #ffffff;
+$overlay-bg: rgba(26, 26, 26, 0.6);
+$overlay-border: rgba(255, 255, 255, 0.4);
+$line: #dfdfdf;
+
+.page {
+  background-color: $bg-page;
+  color: $text-main;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= TEAM SECTION ================= */
+
+.teamSection {
+  background: radial-gradient(
+      circle at 20% 15%,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0) 70%
+    ),
+    $bg-page;
+
+  .hero {
+    padding: 70px 15px 50px 15px;
+    border-right: 1px solid $line;
+    border-left: 1px solid $line;
+    border-bottom: 1px solid $line;
+    // text-align: center;
+
+    .teamHeader {
+      max-width: 550px;
+      .kickerRow {
+        display: flex;
+        gap: 5px;
+        justify-content: left;
+        align-items: center;
+        text-transform: uppercase;
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+
+      .teamTitleMain {
+        line-height: 45px;
+        font-size: 45px;
+        font-weight: lighter;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .teamShell {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    row-gap: 2rem;
+    padding: 70px 15px;
+    padding-top: 0px;
+    border-right: 1px solid $line;
+    border-left: 1px solid $line;
+  }
+
+  /* ===== Slider header row with arrows aligned to cards row ===== */
+  .sliderHeaderRow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-top: 20px;
+
+    /* left spacer just reserves height so text doesn't jump */
+    .sliderHeaderSpacer {
+      height: 40px;
+    }
+
+    .arrowControls {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+
+      .arrowButton {
+        appearance: none;
+        border: 1px solid $border-line;
+        background-color: $bg-page;
+        color: $text-main;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
+        transition: all 0.15s ease;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+
+        &:hover {
+          background-color: $bg-alt;
+        }
+      }
+    }
+  }
+
+  /* ===== Slider scroller ===== */
+  .membersScrollerWrapper {
+    overflow: hidden;
+    padding-top: 0rem;
+  }
+
+  .membersScroller {
+    display: flex;
+    column-gap: 1.5rem;
+    row-gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .memberCard {
+      min-width: 260px;
+      max-width: 260px;
+      flex-shrink: 0;
+      display: grid;
+      row-gap: 0.75rem;
+
+      .memberImageWrap {
+        position: relative;
+        width: 100%;
+        background-color: $bg-alt;
+        border: 1px solid $border-line;
+        overflow: hidden;
+        aspect-ratio: 4 / 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .memberImage {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .memberOverlayActions {
+          position: absolute;
+          right: 0.5rem;
+          bottom: 0.5rem;
+          display: flex;
+          gap: 0.4rem;
+
+          .overlayIcon {
+            width: 32px;
+            height: 32px;
+            border: 1px solid $overlay-border;
+            background-color: $overlay-bg;
+            backdrop-filter: blur(6px);
+            border-radius: 4px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            line-height: 1;
+            text-decoration: none;
+            transition: all 0.15s ease;
+
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.75);
+              border-color: $cta-blue;
+              color: $cta-blue;
+            }
+
+            svg {
+              width: 14px;
+              height: 14px;
+            }
+          }
+        }
+      }
+
+      .memberMeta {
+        display: grid;
+        row-gap: 0.25rem;
+
+        .memberName {
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: $text-main;
+          line-height: 1.4;
+        }
+
+        .memberTitle {
+          font-size: 0.8rem;
+          line-height: 1.4;
+          color: $text-dim;
+        }
+      }
+    }
+  }
+}
+
+/* ================= CTA / CONTACT SECTION ================= */
+
+.ctaSection {
+  background-color: $bg-alt;
+
+  .ctaShell {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    row-gap: 2rem;
+    padding: 70px 15px;
+    border-right: 1px solid $line;
+    border-left: 1px solid $line;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+      column-gap: 2rem;
+      align-items: start;
+      row-gap: 0;
+    }
+  }
+
+  .ctaCopy {
+    max-width: 700px;
+    display: grid;
+    row-gap: 1.25rem;
+
+    .ctaHeadline {
+      color: $text-main;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.8rem, 0.8rem + 1.2vw, 2.4rem);
+      max-width: 28ch;
+    }
+
+    .ctaSub {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: $text-dim;
+      max-width: 55ch;
+    }
+
+    .ctaStatsRow {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 1rem;
+
+      @media (min-width: 480px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 1rem;
+        row-gap: 1rem;
+      }
+
+      .statItem {
+        border: 1px solid $border-line;
+        background-color: $bg-page;
+        padding: 1rem;
+        display: grid;
+        row-gap: 0.4rem;
+
+        .statValue {
+          font-weight: 600;
+          letter-spacing: -0.03em;
+          color: $text-main;
+          font-size: 1.25rem;
+          line-height: 1.2;
+        }
+
+        .statLabel {
+          font-size: 0.8rem;
+          line-height: 1.4;
+          color: $text-dim;
+        }
+      }
+    }
+
+    .contactInfo {
+      display: grid;
+      row-gap: 0.75rem;
+      margin-top: 1rem;
+      color: $text-main;
+
+      .contactLine {
+        display: grid;
+        row-gap: 0.25rem;
+        font-size: 0.9rem;
+        line-height: 1.4;
+
+        @media (min-width: 500px) {
+          grid-template-columns: auto 1fr;
+          column-gap: 0.5rem;
+          align-items: baseline;
+        }
+
+        .contactLabel {
+          color: $text-main;
+          font-weight: 500;
+          font-size: 0.8rem;
+          line-height: 1.4;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .contactValue {
+          color: $text-dim;
+          font-size: 0.9rem;
+          line-height: 1.4;
+          text-decoration: none;
+
+          &:hover {
+            color: $text-main;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .ctaButtons {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      .primaryCTA,
+      .secondaryCTA {
+        appearance: none;
+        border: 0;
+        outline: 0;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        min-width: max-content;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.3;
+        padding: 0.9rem 1.1rem;
+
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        color: $cta-text;
+        transition: background-color 0.15s ease;
+      }
+
+      .primaryCTA {
+        background-color: $cta-blue;
+
+        &:hover {
+          background-color: darken($cta-blue, 5%);
+        }
+      }
+
+      .secondaryCTA {
+        background-color: $cta-black;
+
+        &:hover {
+          background-color: lighten($cta-black, 5%);
+        }
+      }
+    }
+  }
+
+  .ctaSideCard {
+    border: 1px solid $border-line;
+    background-color: $bg-page;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
+    border-radius: 0;
+
+    .sideCardInner {
+      padding: 1.5rem;
+      display: grid;
+      row-gap: 0.75rem;
+
+      @media (min-width: 768px) {
+        padding: 2rem;
+      }
+
+      .sideStatLabel {
+        font-size: 0.7rem;
+        line-height: 1.2;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $accent-plum;
+      }
+
+      .sideStatBig {
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+        color: $text-main;
+        font-size: 1.4rem;
+      }
+
+      .sideStatNote {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: $text-dim;
+        max-width: 32ch;
+      }
+    }
+  }
+}

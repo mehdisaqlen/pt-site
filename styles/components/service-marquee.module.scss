@@ -1,0 +1,158 @@
+.home {
+  background-color: black;
+}
+/* Color tokens tuned to the screenshot theme */
+:root {
+  --cream: #fff7f0; /* page background */
+  --chip-bg: #f3ede7; /* light tag background */
+  --chip-bg-hover: #ece6e0;
+  --text: #1f1412; /* deep brown text */
+  --cta: #1f1412; /* deep brown button */
+  --cta-text: #ffffff;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.servicesMarquee {
+  // background: var(--cream);
+  color: var(--text);
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 56px 20px 72px;
+  max-width: 1120px; /* aligns with your “container” request */
+}
+
+.title {
+  font-size: clamp(24px, 3.4vw, 38px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 28px;
+  text-align: center; /* set to left if you prefer */
+}
+
+.rows {
+  display: grid;
+  gap: 0px;
+}
+
+.row {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  &:hover .track {
+    animation-play-state: paused;
+  }
+}
+.track {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  width: max-content;
+  animation: scroll-left linear var(--speed, 30s) infinite;
+}
+
+.reverse .track {
+  animation-name: scroll-right;
+}
+
+.item {
+  list-style: none;
+}
+
+.chip {
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 13px;
+  // letter-spacing: -0.5px;
+  line-height: 1;
+  background: var(--chip-bg);
+
+  &:hover {
+    background: var(--chip-bg-hover);
+  }
+}
+
+/* Edge fade helpers (extra soft vignette) */
+.fadeLeft,
+.fadeRight {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 56px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.fadeLeft {
+  left: 0;
+  background: linear-gradient(to right, var(--cream), transparent);
+}
+
+.fadeRight {
+  right: 0;
+  background: linear-gradient(to left, var(--cream), transparent);
+}
+
+/* CTA */
+.ctaWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+/* Animations */
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  } /* array duplicated, -50% loops cleanly */
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}
+
+/* Small tweaks */
+@media (max-width: 640px) {
+  .chip {
+    font-size: 14px;
+    padding: 9px 12px;
+  }
+  .container {
+    padding: 44px 16px 60px;
+  }
+}

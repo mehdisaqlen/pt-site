@@ -1,0 +1,276 @@
+/* ======= Footer Styles (nested SCSS) ======= */
+
+$bg-dark: #1a1210; // deep plum/black footer band like our dark sections
+$text-light: #ffffff;
+$text-dim: rgba(255, 255, 255, 0.6);
+$text-faint: rgba(255, 255, 255, 0.4);
+$border-line: rgba(255, 255, 255, 0.18);
+$accent-orange: #f0671f;
+
+.footerSection {
+  background-color: $bg-dark;
+  color: $text-light;
+  padding: 4rem 1rem 2rem;
+
+  @media (min-width: 768px) {
+    padding: 5rem 2rem 2.5rem;
+  }
+
+  .footerInner {
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    row-gap: 3rem;
+  }
+
+  /* =================== TOP GRID =================== */
+  .topRow {
+    display: grid;
+    row-gap: 2rem;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr) minmax(
+          200px,
+          1fr
+        );
+      column-gap: 2rem;
+      row-gap: 0;
+    }
+
+    border: 1px solid $border-line;
+    padding: 2rem 1.5rem;
+    background-color: rgba(26, 18, 16, 0.4);
+    position: relative;
+
+    /* subtle hairline top accent to give premium feel */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-top: 3px solid $accent-orange;
+      pointer-events: none;
+    }
+  }
+
+  /* ----- BRAND BLOCK ----- */
+  .brandBlock {
+    display: grid;
+    row-gap: 1rem;
+    max-width: 320px;
+
+    .brandName {
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: $text-light;
+    }
+
+    .brandLine {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: $text-dim;
+      max-width: 30ch;
+    }
+
+    .paymentBlock {
+      display: grid;
+      row-gap: 0.75rem;
+      margin-top: 1rem;
+
+      .paymentLabel {
+        font-size: 0.7rem;
+        line-height: 1.2;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: $text-faint;
+        font-weight: 500;
+      }
+
+      .paymentIcons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1rem;
+
+        .paymentIcon {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          color: $text-light;
+          font-size: 0.8rem;
+          line-height: 1.2;
+          font-weight: 500;
+
+          svg {
+            width: 16px;
+            height: 16px;
+            color: $accent-orange;
+            flex-shrink: 0;
+          }
+
+          span {
+            color: $text-light;
+          }
+        }
+      }
+    }
+  }
+
+  /* ----- LINKS BLOCK ----- */
+  .linksBlock {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+    row-gap: 2rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .linksCol {
+      display: grid;
+      row-gap: 0.75rem;
+
+      .linksHead {
+        color: $text-light;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.2;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .linkList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        row-gap: 0.5rem;
+
+        li {
+          line-height: 1.4;
+        }
+
+        .linkItem {
+          color: $text-dim;
+          font-size: 0.9rem;
+          text-decoration: none;
+          transition: color 0.15s ease;
+
+          &:hover {
+            color: $text-light;
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .addressBlock {
+        margin-top: 0.75rem;
+        display: grid;
+        row-gap: 0.25rem;
+
+        .addressLine {
+          font-size: 0.8rem;
+          line-height: 1.4;
+          color: $text-dim;
+        }
+      }
+    }
+  }
+
+  /* ----- SOCIAL BLOCK ----- */
+  .socialBlock {
+    display: grid;
+    row-gap: 0.75rem;
+    align-content: flex-start;
+
+    .socialHead {
+      color: $text-light;
+      font-size: 0.8rem;
+      font-weight: 500;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .socialRow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .socialIcon {
+        width: 36px;
+        height: 36px;
+        border: 1px solid $border-line;
+        color: $text-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        font-size: 0.9rem;
+        transition: all 0.15s ease;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.07);
+          color: $accent-orange;
+          border-color: $accent-orange;
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  /* =================== BOTTOM ROW =================== */
+  .bottomRow {
+    border-top: 1px solid $border-line;
+    padding-top: 1.5rem;
+    display: grid;
+    row-gap: 1rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      row-gap: 0;
+    }
+
+    .legalLeft {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: 0.5rem;
+      row-gap: 0.5rem;
+
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: $text-faint;
+
+      .dot {
+        color: $text-faint;
+      }
+    }
+
+    .legalRight {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      .legalLink {
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: $text-faint;
+        text-decoration: none;
+        transition: color 0.15s ease;
+
+        &:hover {
+          color: $text-light;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

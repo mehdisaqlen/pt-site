@@ -1,0 +1,266 @@
+/* brand tokens */
+$bg-page: #efede6; // warm neutral outer background
+$text-main: #1a1a1a;
+$text-dim: #3a3935;
+$border-card: #d8d5cc;
+$accent-dot: #2b0e2a; // plum accent
+$accent-bullet: #f0671f; // orange-ish highlight
+$cta-bg: #1a1210;
+$cta-text: #ffffff;
+$line: #ececec;
+
+.sectionAlt {
+  background-color: $bg-page;
+  background-color: #fffefb;
+  border-top: 1px solid var(--line);
+}
+
+/* Outer wrapper now is NOT a box with rounded corners.
+   It's just a max-width column layout. */
+.processShell {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  padding: 70px 15px;
+  border-right: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+
+  @media (min-width: 768px) {
+    row-gap: 2.5rem;
+  }
+}
+
+/* ---------------------------------
+   HEADER ROW WITH INLINE RULE
+--------------------------------- */
+
+/* flex row: [dot+label] [headline] [line growing to the right] */
+.headerFlexRow {
+  color: $text-main;
+
+  /* ---------- label ("BY THE NUMBERS") ---------- */
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: rgb(144, 144, 144);
+    margin-bottom: 1.5rem;
+
+    .bar {
+      width: 30px;
+      height: 8px;
+      background-color: blue;
+    }
+
+    .labelText {
+      line-height: 1;
+    }
+  }
+}
+
+.processHeadline {
+  font-weight: 500;
+  color: $text-main;
+  line-height: 1.1;
+  font-size: clamp(2rem, 1rem + 2vw, 3.5rem);
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+}
+
+/* horizontal rule that continues after headline */
+.flexRule {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+    flex-grow: 1;
+    align-self: center;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-top: 0.6rem; /* visually align with headline baseline */
+  }
+}
+
+/* Intro text under header row */
+.processIntro {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $text-dim;
+  max-width: 48ch;
+}
+
+/* ---------------------------------
+   STEPS STRIP
+--------------------------------- */
+
+/* This whole block = steps row + footer bar, visually one module */
+.stepsStripOuter {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border-card;
+  background-color: transparent;
+  border-radius: 0; /* no rounding now */
+}
+
+/* The step columns row:
+   - no gaps
+   - square corners
+   - borders between columns only
+*/
+.stepsStripInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-bottom: 1px solid $border-card;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stepCol {
+  padding: 1rem 1rem 1.25rem;
+  background-color: transparent;
+  color: $text-main;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+
+  @media (min-width: 768px) {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  /* vertical borders between columns on desktop */
+  @media (min-width: 640px) {
+    &:not(:last-child) {
+      border-right: 1px solid $border-card;
+    }
+  }
+}
+
+.stepNumber {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $text-main;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.stepTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: $text-main;
+  margin-bottom: 0.5rem;
+}
+
+.stepDesc {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: $text-dim;
+  margin-bottom: 0.75rem;
+}
+
+.stepNote {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: $text-dim;
+  display: flex;
+  align-items: flex-start;
+  margin-top: auto; /* push to bottom in taller layouts */
+  max-width: 280px;
+}
+
+.noteIcon {
+  font-size: 0.8rem;
+  line-height: 1;
+  margin-right: 0.5rem;
+  color: $accent-dot;
+}
+
+.noteText {
+  line-height: 1.4;
+}
+
+/* ---------------------------------
+   FOOTER BAR inline with strip
+--------------------------------- */
+.stepsFooterBar {
+  background-color: transparent;
+  border-top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+  }
+}
+
+.footerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.avatarsGroup {
+  display: flex;
+  align-items: center;
+
+  .avatarCircle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid $bg-page; /* so they look "cut out" */
+    background-color: $accent-dot;
+    box-shadow: 0 0 0 1px $border-card;
+
+    &:not(:first-child) {
+      margin-left: -8px;
+    }
+  }
+}
+
+.footerCopy {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: $text-main;
+
+  .emph {
+    font-weight: 500;
+    color: $text-main;
+    padding-left: 0.3rem;
+  }
+}
+
+.footerCtaBtn {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  background-color: #1900ff;
+  color: $cta-text;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 5px;
+  padding: 0.7rem 1rem;
+  min-width: max-content;
+  font-family: TomatoGrotesk;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: #000;
+  }
+}

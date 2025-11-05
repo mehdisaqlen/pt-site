@@ -1,0 +1,167 @@
+:root {
+  --blue: #1900ff;
+  --bg: #fbfaf8;
+  --nav-bg: #fbfaf8;
+  --text: #1f1f1f;
+  --line: #eaeaea;
+}
+
+.bar {
+  width: 100%;
+  background-color: var(--nav-bg) !important;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  overflow: visible;
+  z-index: 100000;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+.logoImg {
+  height: auto;
+  width: 120px;
+  object-fit: contain;
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.burger {
+  font-size: 24px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.ctaMobile {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+/* Desktop links */
+.links {
+  font-size: 15px;
+  display: none;
+  align-items: center;
+  gap: 0px;
+  margin-left: auto;
+}
+
+.link {
+  position: relative;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.link:hover {
+  background-color: rgb(234, 225, 214);
+}
+
+.badge {
+  font-size: 11px;
+  padding: 2px 6px;
+  background: var(--blue);
+  color: white;
+  border-radius: 999px;
+}
+
+.cta {
+  display: none;
+  padding: 10px 16px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+/* Drawer */
+.drawer {
+  display: none;
+  position: fixed;
+  inset: 56px 0 auto 0;
+  background: var(--bg);
+}
+
+.open {
+  display: block;
+}
+
+.drawerInner {
+  display: grid;
+  padding: 16px;
+  gap: 10px;
+}
+
+.mLink {
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.mLink:hover {
+  background-color: rgb(234, 225, 214);
+}
+
+.mBadge {
+  @extend .badge;
+}
+
+.mCta {
+  @extend .cta;
+  display: inline-flex;
+  justify-content: center;
+}
+
+/* Desktop layout */
+@media (min-width: 1024px) {
+  .burger,
+  .ctaMobile,
+  .drawer {
+    display: none !important;
+  }
+
+  .links {
+    display: flex;
+  }
+
+  .cta {
+    display: inline-flex;
+  }
+
+  .nav {
+    gap: 15px;
+  }
+}
