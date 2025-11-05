@@ -2,15 +2,49 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { makeHandler } from "../_utils/secure-handler";
 import { z } from "zod";
 
-const TO = (process.env.AFFILIATE_RECEIVER || "contact@pubthrive.com")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
+// ---------- tiny CORS helpers (permissive to make it work locally) ----------
+function corsHeaders(origin: string | null) {
+  return {
+    "Access-Control-Allow-Origin": origin || "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin",
+  };
+}
 
+export async function OPTIONS(req: Request) {
+  const origin = req.headers.get("origin");
+  return new NextResponse(null, { status: 204, headers: corsHeaders(origin) });
+}
+
+// ---------- parsing helpers ----------
+function toBool(v: unknown) {
+  if (typeof v === "boolean") return v;
+  const s = String(v ?? "")
+    .toLowerCase()
+    .trim();
+  return s === "on" || s === "true" || s === "1" || s === "yes";
+}
+
+async function parseBody(req: Request) {
+  const ct = req.headers.get("content-type") || "";
+  if (ct.includes("form")) {
+    const fd = await req.formData();
+    const obj = Object.fromEntries(fd) as Record<string, any>;
+    // coerce checkbox-like input
+    obj.consent = toBool(obj.consent);
+    return obj;
+  }
+  const json = (await req.json().catch(() => ({}))) as Record<string, any>;
+  json.consent = toBool(json.consent);
+  return json;
+}
+
+// ---------- validation ----------
 const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
@@ -22,21 +56,59 @@ const schema = z.object({
   niches: z.string().min(1).max(200),
   regions: z.string().min(1).max(200),
   acquisitionNotes: z.string().min(5).max(3000),
-  consent: z.boolean().refine((v) => v === true),
+  // accept anything -> toBool -> must be true
+  consent: z
+    .any()
+    .transform(toBool)
+    .refine((v) => v === true, { message: "Consent required" }),
+  // honeypot: ok if empty/undefined
   hp: z
     .string()
     .optional()
     .refine((v) => !v, { message: "bot" }),
 });
 
-const esc = (s: string) => s.replace(/</g, "&lt;");
+const TO = (process.env.AFFILIATE_RECEIVER || "contact@pubthrive.com")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
-export const POST = makeHandler({
-  schema,
-  // remove allowedOrigin for this test
-  async process(d) {
+const FROM = process.env.FROM_EMAIL || "noreply@pubthrive.com";
+
+const esc = (s: string) => String(s).replace(/</g, "&lt;");
+
+// ---------- route ----------
+export async function POST(req: Request) {
+  const origin = req.headers.get("origin");
+
+  try {
+    const raw = await parseBody(req);
+
+    // smoke logging (comment out after testing)
+    // console.log("affiliate POST", { origin, ct: req.headers.get("content-type"), raw });
+
+    const parsed = schema.safeParse(raw);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid data", issues: parsed.error.flatten() },
+        { status: 400, headers: corsHeaders(origin) }
+      );
+    }
+
+    const d = parsed.data;
+    // if honeypot tripped, act like success
+    if (raw.hp && String(raw.hp).trim()) {
+      return NextResponse.json({ ok: true }, { headers: corsHeaders(origin) });
+    }
+
     const key = process.env.RESEND_API_KEY;
-    if (!key) throw new Error("server_misconfigured");
+    if (!key) {
+      return NextResponse.json(
+        { error: "server_misconfigured: missing RESEND_API_KEY" },
+        { status: 500, headers: corsHeaders(origin) }
+      );
+    }
+
     const resend = new Resend(key);
 
     const pairs: [string, string][] = [
@@ -50,6 +122,7 @@ export const POST = makeHandler({
       ["Niches", d.niches],
       ["Regions", d.regions],
       ["Acquisition plan", d.acquisitionNotes],
+      ["Consent", d.consent ? "Yes" : "No"],
     ];
 
     const html = `
@@ -67,24 +140,38 @@ export const POST = makeHandler({
                 <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
                   v
                 )}</div>
-              </div>`
+              </div>
+            `
               )
               .join("")}
           </div>
           <div style="background:#f1f5f9;color:#475569;padding:14px 24px;text-align:center;font-size:13px;">
-            Sent from pubthrive.com • ${new Date().toLocaleString()}
+            Sent • ${new Date().toLocaleString()}
           </div>
         </div>
       </div>
     `;
 
     const r = await resend.emails.send({
-      from: "PubThrive <contact@pubthrive.com>",
+      from: `PubThrive <${FROM}>`,
       to: TO,
       subject: `Affiliate Application — ${d.name}`,
       replyTo: d.email,
       html,
     });
-    if ((r as any)?.error) throw new Error("email_failed");
-  },
-});
+
+    if ((r as any)?.error) {
+      return NextResponse.json(
+        { error: "email_failed", detail: (r as any).error },
+        { status: 502, headers: corsHeaders(origin) }
+      );
+    }
+
+    return NextResponse.json({ ok: true }, { headers: corsHeaders(origin) });
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: "Server error", detail: e?.message || String(e) },
+      { status: 500, headers: corsHeaders(origin) }
+    );
+  }
+}

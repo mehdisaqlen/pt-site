@@ -2,14 +2,47 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Resend } from "resend";
-import { makeHandler } from "../_utils/secure-handler";
 
-const TO = (process.env.CONTACT_RECEIVER || "contact@pubthrive.com")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
+// permissive CORS so it works local and on Amplify
+function corsHeaders(origin: string | null) {
+  return {
+    "Access-Control-Allow-Origin": origin || "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin",
+  };
+}
+
+export async function OPTIONS(req: Request) {
+  const origin = req.headers.get("origin");
+  return new NextResponse(null, { status: 204, headers: corsHeaders(origin) });
+}
+
+// checkbox coercion
+function toBool(v: unknown) {
+  if (typeof v === "boolean") return v;
+  const s = String(v ?? "")
+    .toLowerCase()
+    .trim();
+  return s === "on" || s === "true" || s === "1" || s === "yes";
+}
+
+// parse FormData or JSON
+async function parseBody(req: Request) {
+  const ct = req.headers.get("content-type") || "";
+  if (ct.includes("form")) {
+    const fd = await req.formData();
+    const obj = Object.fromEntries(fd) as Record<string, any>;
+    obj.consent = toBool(obj.consent);
+    return obj;
+  }
+  const json = (await req.json().catch(() => ({}))) as Record<string, any>;
+  json.consent = toBool(json.consent);
+  return json;
+}
 
 const schema = z
   .object({
@@ -22,7 +55,12 @@ const schema = z
     website: z.string().url(),
     phone: z.string().min(6),
     message: z.string().min(5),
-    consent: z.boolean().refine((v) => v === true),
+    // accept any input and require true after coercion
+    consent: z
+      .any()
+      .transform(toBool)
+      .refine((v) => v === true, { message: "Consent required" }),
+    // honeypot ok only if empty
     hp: z
       .string()
       .optional()
@@ -30,37 +68,63 @@ const schema = z
   })
   .superRefine((v, ctx) => {
     if (v.role === "Individual") {
-      if (!v.company)
+      if (!v.company) {
         ctx.addIssue({
           code: "custom",
           path: ["company"],
           message: "Required",
         });
-      if (!v.monthlyRevenue)
+      }
+      if (!v.monthlyRevenue) {
         ctx.addIssue({
           code: "custom",
           path: ["monthlyRevenue"],
           message: "Required",
         });
+      }
     }
   });
 
-const esc = (s: string) => s.replace(/</g, "&lt;");
+const TO = (process.env.CONTACT_RECEIVER || "contact@pubthrive.com")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
-export const POST = makeHandler({
-  schema,
-  allowedOrigin: process.env.ALLOWED_ORIGIN || "http://localhost:3000",
-  async process(d) {
-    const key = process.env.RESEND_API_KEY;
-    if (!key) {
-      console.error("Missing RESEND_API_KEY");
-      throw new Error("server_misconfigured");
+const FROM = process.env.FROM_EMAIL || "noreply@pubthrive.com";
+
+const esc = (s: string) => String(s).replace(/</g, "&lt;");
+
+export async function POST(req: Request) {
+  const origin = req.headers.get("origin");
+
+  try {
+    const raw = await parseBody(req);
+
+    // if bot filled honeypot, pretend success
+    if (raw.hp && String(raw.hp).trim()) {
+      return NextResponse.json({ ok: true }, { headers: corsHeaders(origin) });
     }
 
-    // Instantiate INSIDE handler
+    const parsed = schema.safeParse(raw);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid data", issues: parsed.error.flatten() },
+        { status: 400, headers: corsHeaders(origin) }
+      );
+    }
+
+    const d = parsed.data;
+
+    const key = process.env.RESEND_API_KEY;
+    if (!key) {
+      return NextResponse.json(
+        { error: "server_misconfigured: missing RESEND_API_KEY" },
+        { status: 500, headers: corsHeaders(origin) }
+      );
+    }
+
     const resend = new Resend(key);
 
-    const subject = `New Inquiry — ${d.role}`;
     const pairs: [string, string][] = [
       ["Role", d.role],
       ["Name", d.name],
@@ -72,25 +136,25 @@ export const POST = makeHandler({
       ...(d.monthlyRevenue
         ? [["Monthly ad revenue", d.monthlyRevenue] as [string, string]]
         : []),
+      ["Consent", "Yes"],
     ];
 
     const infoItems = pairs
       .map(
         ([k, v]) => `
-      <div style="margin-bottom:10px;">
-        <div style="font-weight:600;color:#0f172a;font-size:15px;margin-bottom:2px;">${k}</div>
-        <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
-          v
-        )}</div>
-      </div>
-    `
+          <div style="margin-bottom:10px;">
+            <div style="font-weight:600;color:#0f172a;font-size:15px;margin-bottom:2px;">${k}</div>
+            <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
+              v
+            )}</div>
+          </div>`
       )
       .join("");
 
     const html = `
       <div style="background:#f8fafc;padding:40px 0;font-family:Inter,Arial,sans-serif;color:#0f172a;">
-        <div style="max-width:640px;margin:auto;background:white;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.08);">
-          <div style="background:#0f172a;color:white;padding:18px 28px;font-size:18px;font-weight:700;letter-spacing:-0.02em;">
+        <div style="max-width:640px;margin:auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.08);">
+          <div style="background:#0f172a;color:#fff;padding:18px 28px;font-size:18px;font-weight:700;letter-spacing:-0.02em;">
             PubThrive Contact Form
           </div>
           <div style="padding:28px;">
@@ -103,20 +167,32 @@ export const POST = makeHandler({
             </div>
           </div>
           <div style="background:#f1f5f9;color:#475569;padding:14px 24px;text-align:center;font-size:13px;">
-            Sent from pubthrive.com • ${new Date().toLocaleString()}
+            Sent • ${new Date().toLocaleString()}
           </div>
         </div>
       </div>
     `;
 
     const r = await resend.emails.send({
-      from: "PubThrive <contact@pubthrive.com>",
+      from: `PubThrive <${FROM}>`,
       to: TO,
-      subject,
+      subject: `New Inquiry — ${d.role}`,
       replyTo: d.email,
       html,
     });
 
-    if ((r as any)?.error) throw new Error("email_failed");
-  },
-});
+    if ((r as any)?.error) {
+      return NextResponse.json(
+        { error: "email_failed", detail: (r as any).error },
+        { status: 502, headers: corsHeaders(origin) }
+      );
+    }
+
+    return NextResponse.json({ ok: true }, { headers: corsHeaders(origin) });
+  } catch (e: any) {
+    return NextResponse.json(
+      { error: "Server error", detail: e?.message || String(e) },
+      { status: 500, headers: corsHeaders(origin) }
+    );
+  }
+}
