@@ -1,4 +1,6 @@
+// app/layout.tsx
 import type { Metadata } from "next";
+import { Suspense } from "react"; // <-- add this
 import JsonLd from "./components/JsonLd";
 import { websiteLd, organizationLd } from "@/lib/jsonld";
 import { GeistSans } from "geist/font/sans";
@@ -46,26 +48,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <head>
         {GA_ID && (
           <>
-            {/* Load GA4 */}
+            {/* GA4 loader */}
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
               strategy="afterInteractive"
             />
-            {/* Init */}
+            {/* GA init (no auto page_view) */}
             <Script id="ga-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                // We’ll send SPA pageviews manually, so disable the auto one:
                 gtag('config', '${GA_ID}', { send_page_view: false });
               `}
             </Script>
@@ -86,10 +85,7 @@ export default function RootLayout({
           </Script>
         )}
       </head>
-      <body
-        className={`${GeistSans.className}`}
-        suppressHydrationWarning={true}
-      >
+      <body className={GeistSans.className} suppressHydrationWarning>
         {GTM_ID && (
           <noscript>
             <iframe
@@ -105,13 +101,12 @@ export default function RootLayout({
         <JsonLd id="ld-website" data={websiteLd()} />
         <JsonLd id="ld-org" data={organizationLd()} />
 
-        {/* SPA page_view events */}
-        <GtmPageView />
-        {/* SPA pageviews */}
-        <GaPageView />
+        {/* Wrap client analytics that use useSearchParams/usePathname in Suspense */}
+        <Suspense fallback={null}>{GTM_ID ? <GtmPageView /> : null}</Suspense>
+        <Suspense fallback={null}>{GA_ID ? <GaPageView /> : null}</Suspense>
+
         {children}
         <Footer />
-        {/* <Footer2 /> */}
       </body>
     </html>
   );

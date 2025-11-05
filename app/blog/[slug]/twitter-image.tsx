@@ -1,2 +1,3 @@
 // app/blog/[slug]/twitter-image.tsx
-export { default, runtime, size, contentType } from "./opengraph-image";
+export const runtime = "nodejs";
+export { default, size, contentType } from "./opengraph-image";

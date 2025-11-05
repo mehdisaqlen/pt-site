@@ -1,12 +1,15 @@
 // app/api/contact/route.ts
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { z } from "zod";
 import { Resend } from "resend";
 import { makeHandler } from "../_utils/secure-handler";
 
-const resend = new Resend(process.env.RESEND_API_KEY || "");
-const TO = process.env.CONTACT_RECEIVER?.split(",")
+const TO = (process.env.CONTACT_RECEIVER || "contact@pubthrive.com")
+  .split(",")
   .map((s) => s.trim())
-  .filter(Boolean) ?? ["contact@pubthrive.com"];
+  .filter(Boolean);
 
 const schema = z
   .object({
@@ -20,7 +23,6 @@ const schema = z
     phone: z.string().min(6),
     message: z.string().min(5),
     consent: z.boolean().refine((v) => v === true),
-    // optional honeypot
     hp: z
       .string()
       .optional()
@@ -47,9 +49,17 @@ const esc = (s: string) => s.replace(/</g, "&lt;");
 
 export const POST = makeHandler({
   schema,
-  allowedOrigin: process.env.ALLOWED_ORIGIN || "https://pubthrive.com",
-  // requireCaptcha: async (req) => true, // plug Turnstile/Recaptcha here if needed
-  process: async (d) => {
+  allowedOrigin: process.env.ALLOWED_ORIGIN || "http://localhost:3000",
+  async process(d) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) {
+      console.error("Missing RESEND_API_KEY");
+      throw new Error("server_misconfigured");
+    }
+
+    // Instantiate INSIDE handler
+    const resend = new Resend(key);
+
     const subject = `New Inquiry — ${d.role}`;
     const pairs: [string, string][] = [
       ["Role", d.role],
@@ -67,12 +77,13 @@ export const POST = makeHandler({
     const infoItems = pairs
       .map(
         ([k, v]) => `
-        <div style="margin-bottom:10px;">
-          <div style="font-weight:600;color:#0f172a;font-size:15px;margin-bottom:2px;">${k}</div>
-          <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
-            v
-          )}</div>
-        </div>`
+      <div style="margin-bottom:10px;">
+        <div style="font-weight:600;color:#0f172a;font-size:15px;margin-bottom:2px;">${k}</div>
+        <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
+          v
+        )}</div>
+      </div>
+    `
       )
       .join("");
 

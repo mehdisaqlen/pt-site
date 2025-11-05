@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "mdx"], // include mdx pages
   reactStrictMode: true,
   images: {
-    domains: ["localhost", "pubthrive.com"], // add any image domains you need
+    domains: ["localhost", "pubthrive.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "pubthrive.com" },
+    ],
   },
 };
 

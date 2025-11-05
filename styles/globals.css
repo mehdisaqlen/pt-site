@@ -73,3 +73,47 @@ a {
     box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
   }
 }
+
+/* styles/pages/not-found.module.scss (optional if you prefer SCSS modules)
+   If you use global styles, paste these classes in your global file instead. */
+.nf-wrap {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 48px 16px;
+  background: #0b0f1a;
+}
+.nf-card {
+  max-width: 720px;
+  width: 100%;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+.nf-card h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+.nf-card p {
+  margin: 0 0 20px;
+  color: #94a3b8;
+}
+.nf-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.nf-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+.nf-link {
+  color: #93c5fd;
+  padding: 10px 0;
+}

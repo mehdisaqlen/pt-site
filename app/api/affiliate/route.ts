@@ -1,12 +1,15 @@
-// app/api/affiliate-apply/route.ts
+// app/api/affiliate/route.ts
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { Resend } from "resend";
 import { makeHandler } from "../_utils/secure-handler";
 import { z } from "zod";
 
-const resend = new Resend(process.env.RESEND_API_KEY || "");
-const TO = process.env.AFFILIATE_RECEIVER?.split(",")
+const TO = (process.env.AFFILIATE_RECEIVER || "contact@pubthrive.com")
+  .split(",")
   .map((s) => s.trim())
-  .filter(Boolean) ?? ["contact@pubthrive.com"];
+  .filter(Boolean);
 
 const schema = z.object({
   name: z.string().min(2),
@@ -20,23 +23,23 @@ const schema = z.object({
   regions: z.string().min(1).max(200),
   acquisitionNotes: z.string().min(5).max(3000),
   consent: z.boolean().refine((v) => v === true),
-  // optional hidden honeypot
   hp: z
     .string()
     .optional()
     .refine((v) => !v, { message: "bot" }),
 });
 
-function esc(s: string) {
-  return s.replace(/</g, "&lt;");
-}
+const esc = (s: string) => s.replace(/</g, "&lt;");
 
 export const POST = makeHandler({
   schema,
-  allowedOrigin: "https://pubthrive.com", // set your prod domain
-  // requireCaptcha: async (req) => { /* verify Turnstile/Recaptcha token */ return true; },
-  process: async (d) => {
-    const lines: [string, string][] = [
+  // remove allowedOrigin for this test
+  async process(d) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) throw new Error("server_misconfigured");
+    const resend = new Resend(key);
+
+    const pairs: [string, string][] = [
       ["Name", d.name],
       ["Email", d.email],
       ["Company", d.company],
@@ -56,7 +59,7 @@ export const POST = makeHandler({
             PubThrive Affiliate Application
           </div>
           <div style="padding:28px;">
-            ${lines
+            ${pairs
               .map(
                 ([k, v]) => `
               <div style="margin-bottom:10px;">
@@ -64,8 +67,7 @@ export const POST = makeHandler({
                 <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
                   v
                 )}</div>
-              </div>
-            `
+              </div>`
               )
               .join("")}
           </div>

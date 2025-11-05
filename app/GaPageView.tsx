@@ -1,7 +1,7 @@
 // app/GaPageView.tsx
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -16,14 +16,18 @@ export default function GaPageView() {
   const pathname = usePathname();
   const search = useSearchParams();
 
+  const pageLocation = useMemo(() => {
+    const q = search?.toString();
+    return q ? `${pathname}?${q}` : pathname;
+  }, [pathname, search]);
+
   useEffect(() => {
     if (!GA_ID || typeof window.gtag !== "function") return;
-    const url = pathname + (search?.toString() ? `?${search}` : "");
     window.gtag("config", GA_ID, {
       page_path: pathname,
-      page_location: url,
+      page_location: pageLocation,
     });
-  }, [pathname, search]);
+  }, [pathname, pageLocation]);
 
   return null;
 }
