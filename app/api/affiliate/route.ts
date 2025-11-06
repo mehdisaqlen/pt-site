@@ -1,126 +1,90 @@
+// app/api/affiliate/route.ts
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-import { NextResponse } from "next/server";
-import { z } from "zod";
 import { Resend } from "resend";
+import { makeHandler } from "../_utils/secure-handler";
+import { z } from "zod";
+
+const TO = (process.env.AFFILIATE_RECEIVER || "contact@pubthrive.com")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
 const schema = z.object({
   name: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   company: z.string().min(1),
   country: z.string().min(1),
   websites: z.string().min(3).max(2000),
   phone: z.string().min(6).max(40),
   publishersCount: z.string().min(1).max(40),
   niches: z.string().min(1).max(200),
+  regions: z.string().min(1).max(200),
+  acquisitionNotes: z.string().min(5).max(3000),
+  consent: z.boolean().refine((v) => v === true),
+  hp: z
+    .string()
+    .optional()
+    .refine((v) => !v, { message: "bot" }),
 });
 
-function have(v?: string) {
-  return !!(v && v.trim().length);
-}
+const esc = (s: string) => s.replace(/</g, "&lt;");
 
-async function parseBody(req: Request) {
-  const ct = req.headers.get("content-type") || "";
-  if (ct.includes("application/json")) {
-    const json = await req.json().catch(() => ({}));
-    return json as Record<string, unknown>;
-  }
-  const fd = await req.formData();
-  const obj: Record<string, string> = {};
-  fd.forEach((v, k) => (obj[k] = (v ?? "").toString()));
-  return obj;
-}
+export const POST = makeHandler({
+  schema,
+  // remove allowedOrigin for this test
+  async process(d) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) throw new Error("server_misconfigured");
+    const resend = new Resend(key);
 
-export async function POST(req: Request) {
-  try {
-    // 1) Parse
-    const raw = await parseBody(req);
+    const pairs: [string, string][] = [
+      ["Name", d.name],
+      ["Email", d.email],
+      ["Company", d.company],
+      ["Country", d.country],
+      ["Website(s)", d.websites],
+      ["Phone / WhatsApp", d.phone],
+      ["Publishers (est.)", d.publishersCount],
+      ["Niches", d.niches],
+      ["Regions", d.regions],
+      ["Acquisition plan", d.acquisitionNotes],
+    ];
 
-    // 2) Validate
-    const parsed = schema.safeParse(raw);
-    if (!parsed.success) {
-      return NextResponse.json(
-        { ok: false, stage: "validate", issues: parsed.error.flatten() },
-        { status: 400 }
-      );
-    }
-    const data = parsed.data;
+    const html = `
+      <div style="background:#f8fafc;padding:40px 0;font-family:Inter,Arial,sans-serif;color:#0f172a;">
+        <div style="max-width:640px;margin:auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.08);">
+          <div style="background:#0f172a;color:#fff;padding:18px 28px;font-size:18px;font-weight:700;letter-spacing:-0.02em;">
+            PubThrive Affiliate Application
+          </div>
+          <div style="padding:28px;">
+            ${pairs
+              .map(
+                ([k, v]) => `
+              <div style="margin-bottom:10px;">
+                <div style="font-weight:600;color:#0f172a;font-size:15px;margin-bottom:2px;">${k}</div>
+                <div style="font-size:15px;color:#1e293b;white-space:pre-wrap;">${esc(
+                  v
+                )}</div>
+              </div>`
+              )
+              .join("")}
+          </div>
+          <div style="background:#f1f5f9;color:#475569;padding:14px 24px;text-align:center;font-size:13px;">
+            Sent from pubthrive.com • ${new Date().toLocaleString()}
+          </div>
+        </div>
+      </div>
+    `;
 
-    // 3) Env checks (runtime envs on Amplify)
-    const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-    const AFFILIATE_RECEIVER = (
-      process.env.AFFILIATE_RECEIVER || "contact@pubthrive.com"
-    )
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    const FROM_EMAIL = process.env.FROM_EMAIL || "noreply@pubthrive.com";
-    const DRY_RUN = (process.env.DRY_RUN_EMAIL || "").toLowerCase() === "true";
-
-    const missing: string[] = [];
-    if (!have(RESEND_API_KEY) && !DRY_RUN) missing.push("RESEND_API_KEY");
-    if (!AFFILIATE_RECEIVER.length) missing.push("AFFILIATE_RECEIVER");
-    if (!have(FROM_EMAIL)) missing.push("FROM_EMAIL");
-
-    if (missing.length) {
-      return NextResponse.json(
-        { ok: false, stage: "env", missing },
-        { status: 500 }
-      );
-    }
-
-    // 4) Build email
-    const subject = `Affiliate Request — ${data.name} (${data.company})`;
-    const text = [
-      `Name: ${data.name}`,
-      `Email: ${data.email}`,
-      `Company: ${data.company}`,
-      `Country: ${data.country}`,
-      `Websites: ${data.websites}`,
-      `Phone: ${data.phone}`,
-      `Publishers Count: ${data.publishersCount}`,
-      `Niches: ${data.niches}`,
-      `Submitted at: ${new Date().toISOString()}`,
-    ].join("\n");
-
-    if (DRY_RUN) {
-      // Skip Resend to confirm everything else works in prod
-      return NextResponse.json({
-        ok: true,
-        stage: "dry-run",
-        to: AFFILIATE_RECEIVER,
-        from: FROM_EMAIL,
-        preview: { subject, text },
-      });
-    }
-
-    // 5) Send email
-    const resend = new Resend(RESEND_API_KEY);
-    const resp = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: AFFILIATE_RECEIVER,
-      replyTo: data.email,
-      subject,
-      text,
+    const r = await resend.emails.send({
+      from: "PubThrive <contact@pubthrive.com>",
+      to: TO,
+      subject: `Affiliate Application — ${d.name}`,
+      replyTo: d.email,
+      html,
     });
-
-    if ((resp as any)?.error) {
-      return NextResponse.json(
-        {
-          ok: false,
-          stage: "resend",
-          error: (resp as any).error?.message ?? "Email send failed",
-        },
-        { status: 502 }
-      );
-    }
-
-    return NextResponse.json({ ok: true, stage: "done" });
-  } catch (err: any) {
-    return NextResponse.json(
-      { ok: false, stage: "exception", message: err?.message || String(err) },
-      { status: 500 }
-    );
-  }
-}
+    if ((r as any)?.error) throw new Error("email_failed");
+  },
+});
