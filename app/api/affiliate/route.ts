@@ -46,7 +46,7 @@ async function parseBody(req: Request) {
 // schema identical style
 const schema = z.object({
   name: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   company: z.string().min(1),
   country: z.string().min(1),
   websites: z.string().min(3).max(2000),
@@ -104,7 +104,9 @@ export async function POST(req: Request) {
       env: process.env.NODE_ENV,
     });
 
-    const key = process.env.RESEND_API_KEY;
+    const key =
+      process.env.RESEND_API_KEY || "re_5RxF5ZjR_64Tegs2dRTzf54cN65ZCtDMQ";
+
     if (!key) {
       return NextResponse.json(
         { error: "server_misconfigured: missing RESEND_API_KEY" },
