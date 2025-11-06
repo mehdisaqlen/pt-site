@@ -71,7 +71,7 @@ const TO = (process.env.AFFILIATE_RECEIVER || "contact@pubthrive.com")
   .filter(Boolean);
 
 // fallback sender until your domain is verified in Resend
-const FROM = process.env.FROM_EMAIL || "noreply@pubthrive.com";
+const FROM = process.env.FROM_EMAIL;
 
 const esc = (s: string) => String(s).replace(/</g, "&lt;");
 
