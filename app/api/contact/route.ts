@@ -45,7 +45,7 @@ const schema = z
   .object({
     role: z.enum(["Individual", "Agency"]),
     name: z.string().min(2),
-    email: z.string().email(),
+    email: z.email(),
     company: z.string().optional(),
     monthlyRevenue: z.string().optional(),
     country: z.string().min(1),
@@ -84,7 +84,7 @@ const TO = (process.env.CONTACT_RECEIVER || "contact@pubthrive.com")
   .filter(Boolean);
 
 // Use verified sender if you have one; fallback to Resend onboarding for testing
-const FROM = process.env.FROM_EMAIL || "onboarding@resend.dev";
+const FROM = process.env.FROM_EMAIL;
 
 const esc = (s: string) => String(s).replace(/</g, "&lt;");
 

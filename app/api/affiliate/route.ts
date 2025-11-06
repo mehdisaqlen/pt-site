@@ -104,8 +104,7 @@ export async function POST(req: Request) {
       env: process.env.NODE_ENV,
     });
 
-    const key =
-      process.env.RESEND_API_KEY || "re_5RxF5ZjR_64Tegs2dRTzf54cN65ZCtDMQ";
+    const key = process.env.RESEND_API_KEY;
 
     if (!key) {
       return NextResponse.json(
