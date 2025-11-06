@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Resend } from "resend";
 
-// permissive CORS so it works local and on Amplify
 function corsHeaders(origin: string | null) {
   return {
     "Access-Control-Allow-Origin": origin || "*",
@@ -21,7 +20,6 @@ export async function OPTIONS(req: Request) {
   return new NextResponse(null, { status: 204, headers: corsHeaders(origin) });
 }
 
-// checkbox coercion
 function toBool(v: unknown) {
   if (typeof v === "boolean") return v;
   const s = String(v ?? "")
@@ -30,7 +28,6 @@ function toBool(v: unknown) {
   return s === "on" || s === "true" || s === "1" || s === "yes";
 }
 
-// parse FormData or JSON
 async function parseBody(req: Request) {
   const ct = req.headers.get("content-type") || "";
   if (ct.includes("form")) {
@@ -55,12 +52,10 @@ const schema = z
     website: z.string().url(),
     phone: z.string().min(6),
     message: z.string().min(5),
-    // accept any input and require true after coercion
     consent: z
       .any()
       .transform(toBool)
       .refine((v) => v === true, { message: "Consent required" }),
-    // honeypot ok only if empty
     hp: z
       .string()
       .optional()
@@ -68,20 +63,18 @@ const schema = z
   })
   .superRefine((v, ctx) => {
     if (v.role === "Individual") {
-      if (!v.company) {
+      if (!v.company)
         ctx.addIssue({
           code: "custom",
           path: ["company"],
           message: "Required",
         });
-      }
-      if (!v.monthlyRevenue) {
+      if (!v.monthlyRevenue)
         ctx.addIssue({
           code: "custom",
           path: ["monthlyRevenue"],
           message: "Required",
         });
-      }
     }
   });
 
@@ -90,7 +83,8 @@ const TO = (process.env.CONTACT_RECEIVER || "contact@pubthrive.com")
   .map((s) => s.trim())
   .filter(Boolean);
 
-const FROM = process.env.FROM_EMAIL || "noreply@pubthrive.com";
+// Use verified sender if you have one; fallback to Resend onboarding for testing
+const FROM = process.env.FROM_EMAIL || "onboarding@resend.dev";
 
 const esc = (s: string) => String(s).replace(/</g, "&lt;");
 
@@ -100,7 +94,6 @@ export async function POST(req: Request) {
   try {
     const raw = await parseBody(req);
 
-    // if bot filled honeypot, pretend success
     if (raw.hp && String(raw.hp).trim()) {
       return NextResponse.json({ ok: true }, { headers: corsHeaders(origin) });
     }
@@ -113,7 +106,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const d = parsed.data;
+    // One-time visibility log (remove later if you want)
+    console.log("CONTACT ENV CHECK", {
+      hasKey: !!process.env.RESEND_API_KEY,
+      from: FROM,
+      toCount: TO.length,
+      node: process.version,
+      env: process.env.NODE_ENV,
+    });
 
     const key = process.env.RESEND_API_KEY;
     if (!key) {
@@ -124,6 +124,7 @@ export async function POST(req: Request) {
     }
 
     const resend = new Resend(key);
+    const d = parsed.data;
 
     const pairs: [string, string][] = [
       ["Role", d.role],
@@ -173,17 +174,25 @@ export async function POST(req: Request) {
       </div>
     `;
 
-    const r = await resend.emails.send({
-      from: `PubThrive <${FROM}>`,
-      to: TO,
-      subject: `New Inquiry — ${d.role}`,
-      replyTo: d.email,
-      html,
-    });
-
-    if ((r as any)?.error) {
+    try {
+      const r = await resend.emails.send({
+        from: `PubThrive <${FROM}>`,
+        to: TO,
+        subject: `New Inquiry — ${d.role}`,
+        replyTo: d.email,
+        html,
+      });
+      if ((r as any)?.error) {
+        console.error("Resend API error:", (r as any).error);
+        return NextResponse.json(
+          { error: "email_failed", detail: (r as any).error },
+          { status: 502, headers: corsHeaders(origin) }
+        );
+      }
+    } catch (e: any) {
+      console.error("Resend send() threw:", e?.message || e);
       return NextResponse.json(
-        { error: "email_failed", detail: (r as any).error },
+        { error: "email_failed_throw", detail: e?.message || String(e) },
         { status: 502, headers: corsHeaders(origin) }
       );
     }
