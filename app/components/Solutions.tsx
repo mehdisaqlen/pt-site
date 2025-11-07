@@ -14,7 +14,7 @@ const SOLUTIONS = [
     title: "Header Bidding Wrapper",
     desc: "Plug into a custom, lightweight Prebid wrapper built for higher yield and faster auctions.",
     cta: "Explore",
-    url: "/solution#header-bidding",
+    url: "/solutions#header-bidding",
   },
   {
     icon: <BiPlay />,
@@ -22,21 +22,21 @@ const SOLUTIONS = [
     desc: "Monetize every surface with high-viewability in-content and out-stream video formats.",
     cta: "Explore",
     featured: true,
-    url: "/solution#video-ads",
+    url: "/solutions#video-ads",
   },
   {
     icon: <BiCheckShield />,
     title: "IVT Reduction & Compliance",
     desc: "Real-time invalid-traffic control, policy safety, and ad-quality monitoring across all partners.",
     cta: "Explore",
-    url: "/solution#ivt",
+    url: "/solutions#ivt",
   },
   {
     icon: <BiGlobe />,
     title: "Premium Google & Other Demand",
     desc: "Access top-tier MCM demand — AdX, Open Bidding, and premium SSP partners — through PubThrive.",
     cta: "Explore",
-    url: "/solution#demand",
+    url: "/solutions#demand",
   },
 ];
 
