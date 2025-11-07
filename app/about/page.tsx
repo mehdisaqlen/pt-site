@@ -111,8 +111,8 @@ export default function About() {
         headline="Unlock premium Google Ad Exchange demand and earn more"
         leftLabel="Start Onboarding"
         rightLabel="Talk to Our Team"
-        leftHref="/onboarding"
-        rightHref="/contact"
+        leftHref="/contact"
+        rightHref="/team"
       />
     </main>
   );
