@@ -51,7 +51,7 @@ export default function Team() {
     {
       name: "Salman Mehdi",
       title: "CFO",
-      img: "/images/team/salman.jpg",
+      img: "/images/team/salman-2.jpg",
       email: "salman@pubthrive.com",
       linkedin: "https://linkedin.com/in/salmanmehdi",
     },
