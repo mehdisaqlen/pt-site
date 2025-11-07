@@ -504,3 +504,95 @@
   align-items: center;
   gap: 0.55rem;
 }
+
+@media screen and (max-width: 800px) {
+  .header {
+    padding-top: 25px;
+    .h1 {
+      font-size: 1.5rem !important;
+      margin: 5px;
+    }
+  }
+  .col1 {
+    border-top: 1px solid rgb(237, 234, 230);
+    padding-top: 20px !important;
+    margin-bottom: 25px;
+  }
+
+  .form {
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      label {
+        font-size: 1rem;
+      }
+
+      input,
+      textarea {
+        padding: 1rem 0.9rem;
+        font-size: 15px;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .error {
+        font-size: 0.9rem;
+      }
+    }
+
+    .roleCard {
+      padding: 20px 12px;
+
+      .roleIcon {
+        font-size: 25px;
+      }
+      input {
+        display: none;
+      }
+
+      .roleTitle {
+        font-size: 1.1em;
+      }
+    }
+
+    /* Custom selects */
+    .selectCustom {
+      position: relative;
+    }
+    .selectBtn {
+      @extend %selectBtn;
+    }
+    .selectList {
+      @extend %selectList;
+    }
+    .selectItem {
+      @extend %selectItem;
+    }
+
+    /* Submit button */
+    .cta {
+      padding: 20px 15px;
+      font-size: 1.2rem;
+    }
+  }
+
+  %selectBtn {
+    padding: 1rem 0.9rem;
+    font-size: 15px;
+    color: #292a2b;
+  }
+
+  %selectItem {
+    font-size: 15px;
+  }
+
+  .placeholder {
+    color: #383a3d;
+    font-size: 16px;
+  }
+}

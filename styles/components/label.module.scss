@@ -14,3 +14,9 @@
     background-color: var(--blue);
   }
 }
+
+@media (max-width: 768px) {
+  .sectionLabel {
+    // margin-bottom: 0px;
+  }
+}

@@ -9,9 +9,12 @@ import Image from "next/image";
 import Container from "./Container";
 
 const LINKS = [
+  { label: "Home", href: "/" },
   { label: "Solution", href: "/solutions" },
   { label: "Affiliate", href: "/affiliate", badge: "New" },
   { label: "Blog", href: "/blog" },
+  { label: "Team", href: "/team" },
+  { label: "About", href: "/about" },
   // { label: "Contact", href: "/contact" },
 ];
 
@@ -44,12 +47,12 @@ export default function Navbar() {
             />
           </Link>
           <div className={styles.rightSide}>
-            <Link
-              href="/monetize"
+            {/* <Link
+              href="/contact"
               className={`${styles.ctaMobile} ${tomatoGrotesk.className}`}
             >
               Monetize Now
-            </Link>
+            </Link> */}
             <button
               className={styles.burger}
               onClick={() => setOpen((v) => !v)}
@@ -94,7 +97,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/monetize"
+              href="/contact"
               className={styles.mCta}
               onClick={() => setOpen(false)}
             >

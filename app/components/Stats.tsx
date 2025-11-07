@@ -12,7 +12,7 @@ const STATS = [
     note: "active publisher relationships",
   },
   {
-    value: "1.5 billion",
+    value: "1.5+ billion",
     note: "monthly ad impressions monetized",
   },
   {

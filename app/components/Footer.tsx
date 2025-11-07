@@ -36,8 +36,8 @@ export default function Footer() {
                 <a href="mailto:contact@pubthrive.com">
                   <BiLogoGmail /> contact@pubthrive.com
                 </a>
-                <a href="http://wa.me/923093797625">
-                  <BsWhatsapp /> +1 (517) 971-3092
+                <a href="http://wa.me/+447473903586" target="_blank">
+                  <BsWhatsapp /> +44 7473 903586
                 </a>
               </address>
             </div>

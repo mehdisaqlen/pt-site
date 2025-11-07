@@ -19,9 +19,6 @@ $line: #ececec;
 }
 /* ========== HERO ========== */
 
-.heroSection {
-}
-
 .heroGrid {
   max-width: 1400px;
   margin: 0 auto;
@@ -393,5 +390,50 @@ $line: #ececec;
 
   &:hover {
     background-color: lighten($cta-black, 5%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    text-align: left;
+    justify-content: center;
+    gap: 50px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
+
+  .heroEyebrow {
+    font-size: 11px;
+  }
+
+  .heroHeadline {
+    color: var(--text);
+    font-size: 2rem;
+    margin-bottom: 0px;
+    text-align: left;
+  }
+
+  .heroSub {
+    max-width: 100%;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .imageWrap {
+    display: none;
+  }
+
+  .ctaRow {
+    justify-content: center;
+  }
+
+  .solutionLead {
+    max-width: 100%;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.3;
   }
 }

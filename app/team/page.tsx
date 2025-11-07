@@ -37,7 +37,7 @@ export default function Team() {
     {
       name: "Saqlen Mehdi",
       title: "CEO & CTO",
-      img: "/images/team/saqlen.jpg",
+      img: "/images/team/saqlen-2.jpg",
       email: "saqlen@pubthrive.com",
       linkedin: "https://linkedin.com/in/mehdi-saqlen",
     },

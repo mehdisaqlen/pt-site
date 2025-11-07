@@ -590,9 +590,46 @@ $line: #ececec;
   margin-top: -0.5rem;
 }
 
-/* ----------------------------------
-   FINAL CTA
----------------------------------- */
+@media (max-width: 800px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    text-align: left;
+    justify-content: center;
+    gap: 50px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
 
-.finalCTASection {
+  .heroEyebrow {
+    font-size: 11px;
+  }
+
+  .heroHeadline {
+    color: var(--text);
+    font-size: 2rem;
+    margin-bottom: 0px;
+    text-align: left;
+  }
+
+  .heroSub {
+    max-width: 100%;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .imageWrap {
+    display: none;
+  }
+
+  .ctaRow {
+    justify-content: center;
+  }
+
+  .solutionLead {
+    max-width: 100%;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.3;
+  }
 }

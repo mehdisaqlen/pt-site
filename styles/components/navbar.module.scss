@@ -44,7 +44,7 @@
 }
 
 .burger {
-  font-size: 24px;
+  font-size: 30px;
   border: none;
   background: transparent;
   color: var(--text);
@@ -121,7 +121,7 @@
 .drawerInner {
   display: grid;
   padding: 16px;
-  gap: 10px;
+  gap: 15px;
 }
 
 .mLink {
@@ -163,5 +163,33 @@
 
   .nav {
     gap: 15px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .nav {
+    padding: 20px 0px;
+
+    .logoImg {
+      height: auto;
+      width: 150px;
+    }
+  }
+
+  /* Drawer */
+  .drawer {
+    border-bottom: 1px solid black;
+    box-shadow: 0 8px 12px -6px black;
+    height: 100%;
+
+    .cta {
+      font-size: 25px;
+      padding: 15px 25px;
+      margin-top: 12px;
+    }
+  }
+
+  .mLink {
+    font-size: 25px !important;
   }
 }

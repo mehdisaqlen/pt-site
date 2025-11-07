@@ -56,7 +56,7 @@ export default function ContactPage() {
 
             <Link
               className={styles.card}
-              href="https://wa.me/15550000000"
+              href="https://wa.me/+447473903586"
               target="_blank"
               rel="noreferrer"
             >
@@ -66,7 +66,7 @@ export default function ContactPage() {
                 </div>
                 <div className={styles.text}>
                   <p>WhatsApp us</p>
-                  <span className={styles.cardLink}>+1(555)000-0000</span>
+                  <span className={styles.cardLink}>+44 7473 903586</span>
                 </div>
               </div>
             </Link>
