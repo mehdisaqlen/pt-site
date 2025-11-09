@@ -69,7 +69,7 @@ export default function SolutionsPage() {
 
             <div className={styles.imageWrap}>
               <Image
-                src="/images/sol-hero.png"
+                src="/images/sol-hero.webp"
                 alt="Affiliates"
                 width={680}
                 height={520}

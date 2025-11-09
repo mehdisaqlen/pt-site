@@ -95,7 +95,7 @@ export default function AffiliatePage() {
             {/* Right side image */}
             <div className={styles.imageWrap}>
               <Image
-                src="/images/affiliate-hero.png"
+                src="/images/affiliate-hero.webp"
                 alt="Affiliates"
                 width={680}
                 height={520}

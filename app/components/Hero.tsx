@@ -54,7 +54,7 @@ export default function Hero() {
           {/* Right side image */}
           <div className={styles.imageWrap}>
             <Image
-              src="/images/hero-image2.png"
+              src="/images/hero-image2.webp"
               alt="Hero Illustration"
               width={680}
               height={520}
