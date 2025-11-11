@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CountrySelect from "@/app/components/CountrySelect";
 import styles from "@/styles/pages/contact.module.scss";
-
+import Link from "next/link";
 const schema = z.object({
   name: z.string().min(2, "Required"),
   email: z.email({ message: "Enter a valid email" }).min(1, "Required"),
@@ -159,8 +159,10 @@ export default function AffiliateForm() {
       </div>
 
       <label className={styles.inlineCheck}>
-        <input type="checkbox" {...register("consent")} /> I agree to be
-        contacted about this application.
+        <input type="checkbox" {...register("consent")} /> I agree to
+        <Link href="/affiliate-terms" style={{ color: "blue" }}>
+          PubThrive&apos;s Affiliate Terms.
+        </Link>
       </label>
       {errors.consent && (
         <p className={styles.error}>{errors.consent.message}</p>
