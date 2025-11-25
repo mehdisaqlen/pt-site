@@ -56,17 +56,26 @@ export default function ContactPage() {
 
             <Link
               className={styles.card}
-              href="https://wa.me/+447473903586"
+              href="https://wa.me/+447511227672"
               target="_blank"
               rel="noreferrer"
+              style={{
+                boxShadow:
+                  "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;",
+              }}
             >
               <div className={styles.inner}>
                 <div className={`${styles.cardIcon} ${styles.whatsapp}`}>
                   <FaWhatsapp />
                 </div>
                 <div className={styles.text}>
-                  <p>WhatsApp us</p>
-                  <span className={styles.cardLink}>+44 7473 903586</span>
+                  <p>WhatsApp</p>
+                  <p>
+                    <span>
+                      <small>Perferred for instant replies</small>
+                    </span>
+                  </p>
+                  <span className={styles.cardLink}>+44 7511 227672</span>
                 </div>
               </div>
             </Link>
