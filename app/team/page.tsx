@@ -39,7 +39,7 @@ export default function Team() {
       title: "CEO & CTO",
       img: "/images/team/saqlen-2.jpg",
       email: "saqlen@pubthrive.com",
-      linkedin: "https://linkedin.com/in/mehdi-saqlen",
+      linkedin: "https://linkedin.com/in/mehdisaqlen",
     },
     {
       name: "Arslan Mehdi",
