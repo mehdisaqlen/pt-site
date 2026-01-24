@@ -53,7 +53,7 @@ export default function Team() {
       title: "CFO",
       img: "/images/team/salman-2.jpg",
       email: "salman@pubthrive.com",
-      linkedin: "https://linkedin.com/in/salmanmehdi",
+      linkedin: "https://linkedin.com/in/mehdisalman",
     },
     {
       name: "Arman Rajput",
