@@ -62,7 +62,7 @@ export default function SolutionsPage() {
 
               <Buttons
                 primaryText="Monetize your Website"
-                primaryHref="/onboarding"
+                primaryHref="/contact"
                 showSecondary={false}
               />
             </div>

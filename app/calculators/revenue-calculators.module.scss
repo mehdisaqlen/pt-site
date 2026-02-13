@@ -1,0 +1,116 @@
+/* PubThrive Orange Theme */
+
+$bg: #fff7f0;
+$card: #f1f1f1;
+$orange: #1f3bf0;
+$text: #1a1a1a;
+$border: #e2d6cc;
+
+.page {
+  // background: $bg;
+}
+
+.header {
+  background: $bg;
+}
+.calculator {
+  padding: 40px 0px;
+  margin-bottom: 80px;
+  // text-align: center;
+  color: $text;
+
+  h2 {
+    font-size: 38px;
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 40px;
+    margin-top: 10px;
+    color: #555;
+    font-size: 18px;
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* LEFT */
+
+.controls {
+  text-align: left;
+  display: grid;
+  gap: 14px;
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  input,
+  select {
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid $border;
+    background: white;
+    font-size: 15px;
+    border-radius: 4px;
+  }
+
+  input[type="range"] {
+    padding: 0;
+    accent-color: $orange;
+  }
+}
+
+.rangeValue {
+  font-weight: 600;
+  color: $orange;
+  font-size: 15px;
+}
+
+/* RIGHT */
+
+.resultCard {
+  background: $card;
+  padding: 40px 35px;
+  border-radius: 14px;
+  text-align: left;
+
+  h3 {
+    font-size: 25px;
+    margin-bottom: 25px;
+  }
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  font-size: 16px;
+
+  strong {
+    font-size: 30px;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.highlight {
+  color: $orange;
+}
