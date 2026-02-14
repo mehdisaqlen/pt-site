@@ -54,7 +54,7 @@ export default function ContactPage() {
               </p>
             </header>
 
-            <Link
+            {/* <Link
               className={styles.card}
               href="https://wa.me/+447511227672"
               target="_blank"
@@ -78,7 +78,7 @@ export default function ContactPage() {
                   <span className={styles.cardLink}>+44 7511 227672</span>
                 </div>
               </div>
-            </Link>
+            </Link> */}
 
             <Link className={styles.card} href="mailto:contact@pubthrive.com">
               <div className={styles.inner}>
